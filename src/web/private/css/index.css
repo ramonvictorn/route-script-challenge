@@ -48,3 +48,14 @@ form {
 .css-2b097c-container{
     width: 80%;
 }
+
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map1 { height: 100% }
+
+
+.rowfix{
+    overflow: scroll;
+    /* height: 100%; */
+    max-height: 100vh;
+}

@@ -51,10 +51,21 @@ class Maps extends Component {
                 if (status == 'OK') {
                     console.log("deu ok2", result)
                     directionsRenderer.setDirections(result);
-                    directionsRenderer.setPanel(document.getElementById('testeinst'));
+                    directionsRenderer.setPanel(document.getElementById('routesDescription'));
 
-                    var control = document.getElementById('testeinst');
+                    var control = document.getElementById('routesDescription');
                     control.style.display = 'block';
+                    computeTotalDistance(result);
+                    function computeTotalDistance(result) {
+                        var total = 0;
+                        var myroute = result.routes[0];
+                        for (var i = 0; i < myroute.legs.length; i++) {
+                          total += myroute.legs[i].distance.value;
+                        }
+                        total = total / 1000;
+                        console.log('o total é ', tota)
+                        // document.getElementById('total').innerHTML = total + ' km';
+                      }
                     // map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
                 }else{
                     console.log("nao deu ok 2", status)
