@@ -1,6 +1,7 @@
 import {
     SET_ORIGIN, 
     SET_DESTINATION,
+    ADD_WAYPOINT,
 } from '../actions/map.js';
 
 const initialState = {
@@ -19,6 +20,13 @@ const mapReducer = (state = initialState, action) => {
             return{
                 ...state,
                 destination: action.payload.destination
+            }
+        case ADD_WAYPOINT:
+            let waypoints = [...state.waypoints];
+            waypoints.push(action.payload.waypoint)
+            return{
+                ...state,
+                waypoints: waypoints,
             }
         default:
             return state;

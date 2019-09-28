@@ -13,22 +13,29 @@ import axios from 'axios';
 import {
   setOrigin,
   setDestination,
+  addWaypoint,
 } from '../actions/map.js';
+import { duration } from '@material-ui/core/styles';
 
 class FormSeach extends Component {
   constructor(){
     super();
     this.roteirizar = this.roteirizar.bind(this);
+    this.addWaypoints = this.addWaypoints.bind(this);
   }
- 
+  addWaypoints(){
+      console.log("addWaypoints");
+      this.props._addWaypoint({location: 'Rua Marino Jorge dos Santos, 684 - São Sebastiao, Palhoça - SC',
+      stopover: true})
+  }
   roteirizar(){
     let markerArray = []
     console.log('roteiriar 3', this.props);
     var loc1 = new google.maps.LatLng(28.407222, 49.546110999999996);
     var loc2 = new google.maps.LatLng(27.6474254, 48.66895060000002);
     var request = {
-        origin: this.props.origin.formatted_address,
-        destination: this.props.destination.formatted_address,
+          origin: this.props.origin.formatted_address,
+        destination: this.props.waypoints[this.props.waypoints.length-1],
         waypoints: this.props.waypoints,
         travelMode: 'DRIVING'
     };
@@ -43,6 +50,13 @@ class FormSeach extends Component {
               directionsRenderer.setDirections(response);
               directionsRenderer.setMap(window.mapServices.map);
               directionsRenderer.setPanel(document.getElementById('routesDescription'));
+              let distancia = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
+                  return {
+                    distance:el.distance.value,
+                    duration: el.duration.value
+                  }
+              })
+              console.log('distancia ->', distancia)
               var control = document.getElementById('routesDescription');
               control.style.display = 'block';
               // map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
@@ -57,7 +71,18 @@ class FormSeach extends Component {
     // document.getElementById('destinoInput').addEventListener('change',  (e)=> this.props._setDestination(e.target.value));
   }
   render(){
-    // console.log("FormSeach render - props -> ", this.props);
+    console.log("FormSeach render - props -> ", this.props);
+    let inputsWaypoints = this.props.waypoints.map((el,idx)=>{
+      console.log('el ', el)
+      return <Input
+      defaultValue={el.location}
+      id={'origemInput2'}
+      key={idx}
+      inputProps={{
+      'aria-label': 'description',
+      }}
+  />
+    })
     return (
       <div className='formRoute'>
         <Row>
@@ -76,7 +101,7 @@ class FormSeach extends Component {
             </Col>
         </Row>
         <Row>
-            <Col>Destino</Col>
+            <Col>Parada</Col>
         </Row>
         <Row>
             <Col>
@@ -88,7 +113,8 @@ class FormSeach extends Component {
                     'aria-label': 'description',
                     }}
                 />
-                <Fab size="small" color="secondary" aria-label="add" className={'classes.margin'}>
+                {inputsWaypoints}
+                <Fab onClick={this.addWaypoints} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
                     <AddIcon />
                 </Fab>
             </Col>
@@ -116,5 +142,6 @@ const mapStateToProps = state => ({
 const mapDistpacthToProps = dispatch => ({
    _setOrigin: origin => dispatch(setOrigin(origin)),
    _setDestination: destination => dispatch(setDestination(destination)),
+   _addWaypoint : waypoint => dispatch(addWaypoint(waypoint)),
 });
 export default connect(mapStateToProps,mapDistpacthToProps)(FormSeach);
