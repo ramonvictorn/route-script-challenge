@@ -7,7 +7,11 @@ class RouteMapContainer extends Component {
     render(){
         return (
             <div className={'mapContainer'}>
-                <Maps></Maps>
+                <Maps
+                    idInputOrigin={'origemInput'}
+                    idInputDestination={'destinationInput'}
+                >
+                </Maps>
             </div>
         )
     }

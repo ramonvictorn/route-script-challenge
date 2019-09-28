@@ -4,7 +4,7 @@
   "description": "Resolving the challenge using js stack",
   "main": "app.js",
   "scripts": {
-    "build-dev": "webpack --config webpack.config.js --mode development",
+    "build-dev": "webpack --watch --config webpack.config.js --mode development",
     "build-prod": "webpack --mode production --profile"
   },
   "author": "Ramon Victor do Nascimento",
@@ -15,8 +15,10 @@
     "express": "^4.17.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.0",
-    "react-select": "^3.0.5"
+    "react-select": "^3.0.5",
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
