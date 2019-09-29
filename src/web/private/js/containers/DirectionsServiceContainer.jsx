@@ -7,12 +7,22 @@ class DirectionServiceContainer extends Component{
         super();
     }
     render(){
-        return(
-            <div className={'directionServiceContainer'}> 
+        let show = this.props.distance != null ? true : false;
+        let comp = '';
+        if(show){
+            comp = 
                 <p>
                     Esse trajeto possui <b>{this.props.distance}</b> Km de comprimento, 
                     e o tempo estimado é de aproximadamente <b>{this.props.duration}</b> minutos
                 </p>
+        }else{
+            comp = (<p>
+                Insira seu destino e clique em roteirizar para iniciar!
+            </p>)
+        }
+        return(
+            <div className={'directionServiceContainer'}> 
+            {comp}
                 <Row className={'rowfix'} >
                     <Col>
                         <div id={'routesDescription'}></div>

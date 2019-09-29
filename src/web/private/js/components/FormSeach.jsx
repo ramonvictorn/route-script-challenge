@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import InputAutoComplete from '../presentational/InputAutoComplete.js';
 import Input from '@material-ui/core/Input';
 import {connect} from 'react-redux';
 import Row from 'react-bootstrap/Row';
@@ -146,15 +145,19 @@ class FormSeach extends Component {
                     onChangeCapture={()=>{console.log('onChangeCapture')}}
                     onChange={(e)=>{this.props._setDestination(e.target.value)}}
                 />
-                {inputsWaypoints}
                 <Fab onClick={this.addInputWaypoint} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
                     <AddIcon />
                 </Fab>
+                {inputsWaypoints}
             </Col>
         </Row>
-        <Button variant="contained" color="primary" className={'classes.button'} onClick={()=> this.roteirizar()}>
-          Roteirizar
-      </Button>
+        <Row>
+          <Col className={'text-center'}>
+            <Button variant="contained" color="primary" className={'classes.button'} onClick={()=> this.roteirizar()}>
+                Roteirizar
+            </Button>
+          </Col>
+        </Row>
       </div>
     )
   }
