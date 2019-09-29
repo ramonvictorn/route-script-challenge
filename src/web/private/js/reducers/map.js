@@ -2,12 +2,18 @@ import {
     SET_ORIGIN, 
     SET_DESTINATION,
     ADD_WAYPOINT,
+    ADD_INPUT_AUTO_COMPLETE,
+    SET_DISTANCE,
+    SET_DURATION,
 } from '../actions/map.js';
 
 const initialState = {
+    idsInputAutoComplete: [],
     origin: null,
     destination: null,
     waypoints : [],
+    distance : null,
+    duration : null,
 };
 
 const mapReducer = (state = initialState, action) => {
@@ -27,6 +33,23 @@ const mapReducer = (state = initialState, action) => {
             return{
                 ...state,
                 waypoints: waypoints,
+            }
+        case ADD_INPUT_AUTO_COMPLETE:
+            let inputs = [...state.idsInputAutoComplete];
+            inputs.push(action.payload.idInput);
+            return {
+                ...state,
+                idsInputAutoComplete: inputs,
+            };
+        case SET_DISTANCE:
+            return {
+                ...state,
+                distance:action.payload.distance,
+            }
+        case SET_DURATION:
+            return {
+                ...state,
+                duration:action.payload.duration,
             }
         default:
             return state;

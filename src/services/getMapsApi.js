@@ -1,5 +1,6 @@
 const axios = require('axios');
 const GOOGLE_MAPS_API_KEY = require('../config/settings.js').GOOGLE_MAPS_API_KEY;
+const logger= require('../loaders/logger.js');
 module.exports = getMapsApi;
 function getMapsApi(){
     return new Promise((resolve,reject)=>{
@@ -9,7 +10,7 @@ function getMapsApi(){
                 resolve(data.data)
             })
             .catch(err => {
-                console.log('erro');
+                logger.log('getMapsApis Error ', err);
                 resolve('erro' , err)
             })
 

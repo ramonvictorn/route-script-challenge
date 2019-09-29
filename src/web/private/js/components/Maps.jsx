@@ -5,41 +5,43 @@ import {connect} from 'react-redux';
 import {
     setOrigin,
     setDestination,
+    addWaypoint,
   } from '../actions/map.js';
 
 class Maps extends Component {
     constructor(){
         super();
+        this.state = {
+            mapScript : false,
+        }
         this.initMaps = this.initMaps.bind(this);
+        this.configListenersAutoComplete = this.configListenersAutoComplete.bind(this);
     }
     
     fetchData(){
         axios("/api/maps/")
         .then((data)=>{
-            // console.log('data do maps', data)
+            // console.log('data do maps', this)
+            // this.state({mapScript:true})
         })
     }
     initMaps(){
         var me = this;
         var positionStart = {lat: 27.6450835, lng:-48.71646750000002 };
-        // let inputOrigem = document.getElementById(this.props.idInputOrigin);
-        // let inputDestino = document.getElementById(this.props.idInputDestination);
-        // configListenersAutoComplete()
-        var directionsService = new google.maps.DirectionsService();
-        var directionsRenderer = new google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(map);
-        // var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
-        // var autocompleteDestino = new google.maps.places.Autocomplete(destinoInput);
-        
         var map = new google.maps.Map(
             document.getElementById('map'), {zoom: 2, center: positionStart}
         );
-            
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+        this.configListenersAutoComplete();
         window.mapServices = {
+            google : google,
             directionsService: directionsService,
             directionsRenderer: directionsRenderer,
             map: map,
         };
+        
         // autocompleteDestino.addListener('place_changed', function() {
         //     var place = autocompleteDestino.getPlace();
         //     // console.log('listener no maps11', me.props._setDestination);
@@ -61,28 +63,40 @@ class Maps extends Component {
         //     });
         // });
     }
-        componentDidMount(){
-            // this.fetchData();
-            var script = document.createElement("script");  // create a script DOM node
-            script.src = "/api/maps/";  // set its src to the provided URL
-            script.async = true;
-            document.head.appendChild(script);
-            script.onload = () => {
-                console.log('Maps - script inserido!');
-                this.initMaps();
-            };
+    componentDidMount(){
+        // this.fetchData();
+        var script = document.createElement("script");  // create a script DOM node
+        script.src = "/api/maps/";  // set its src to the provided URL
+        script.async = true;
+        document.head.appendChild(script);
+        script.onload = () => {
+            console.log('Maps - script inserido!');
+            this.setState({mapScript:true})
+            this.initMaps();
+        };
+    }
+    componentDidUpdate(){
+        console.log("componentDidUpdate ", this.state)
+        if(this.state.mapScript){
+            console.log("deu true")
+            this.configListenersAutoComplete();
         }
-    configListenersAutoComplete(arrayIdInputs){
-        arrayIdInputs.map((el,idx)=>{
+    }
+    configListenersAutoComplete(){
+        let me = this;
+        console.log('configListenersAutoComplete ->', this.props.idsInputAutoComplete)
+        this.props.idsInputAutoComplete.map((el,idx)=>{
             let inputOrigem = document.getElementById(el);
+            console.log('loop ', inputOrigem)
             var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();
-                me.props._setOrigin(place);
+                // me.props._setOrigin(place);
+                me.props._addWaypoint(place);
                 var marker = new google.maps.Marker({
                     position: {lat:place.geometry.location.lat(), lng:place.geometry.location.lng()},
-                    map: map,
+                    map:  window.mapServices.map,
                     title: place.name,
                 });
             });
@@ -99,11 +113,13 @@ class Maps extends Component {
 const mapStateToProps = state => ({
     origin : state.maps.origin,
     destination: state.maps.destination,
+    idsInputAutoComplete: state.maps.idsInputAutoComplete,
 })
 
 const mapDistpacthToProps = dispatch => ({
     _setOrigin: origin => dispatch(setOrigin(origin)),
     _setDestination: destination => dispatch(setDestination(destination)),
+    _addWaypoint :waypoint => dispatch(addWaypoint(waypoint)),
  });
     
 export default connect(mapStateToProps,mapDistpacthToProps)(Maps);
