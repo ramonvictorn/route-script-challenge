@@ -71,3 +71,35 @@ body { height: 100%; margin: 0; padding: 0 }
     display: flex;
     flex-direction: column;
 }
+
+
+@media (max-width: 800px) 
+{
+    .viewRoute{
+        flex-direction: column;
+    }
+
+    .directionServiceContainer div{
+        
+        overflow-y: scroll;
+    }
+    .routesDescription{
+        height: 390px;
+    }
+    .mapContainer{
+        min-height: 250px;
+        width: 100%;
+    }
+    .formRoute{
+        text-align: center;
+    }
+}
+
+
+.headerMenu{
+    text-align: center;
+    padding: 14px
+}
+.headerMenu a{
+    margin-right: 44px;
+}

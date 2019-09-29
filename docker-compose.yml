@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      # - MONGO_INITDB_DATABASE=routes
+      # - DOCKER_HOST=127.0.0.1
+    ports:
+      - 27017:27017
+  # app:
+  #   image: node
+  #   build: .
+  #   restart: aways
+  #   environment:
+  #     - DB_HOST=localhost,
+  #     - DB_PORT=27017,
+  #     - DB_USER=root,
+  #     - DB_PASSWORD=password123,
+  #     - DB_DATABASE=admin,
+  #   ports:
+  #     - 4545:4545

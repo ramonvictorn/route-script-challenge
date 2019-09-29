@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 // local files
+const initDb = require('./loaders/db.js');
 const initRoutes = require('./api/routes.js');
 const setting = require('./config/settings.js');
 const logger = require('./loaders/logger.js');
@@ -19,8 +20,10 @@ async function startServer(){
     app.get('*', (req,res)=>{
         res.sendFile(path.join(__dirname+'/web/public/views/index.html'));
     })
-    app.listen(setting.APP_PORT, ()=>{
-        logger.log(`Listening on ${setting.APP_PORT}`)
+    initDb(()=>{
+        app.listen(setting.APP_PORT, ()=>{
+            logger.log(`Listening on ${setting.APP_PORT}`)
+        })
     })
     
 }

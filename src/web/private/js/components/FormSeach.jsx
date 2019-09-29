@@ -113,7 +113,7 @@ class FormSeach extends Component {
           <Col>
             {cont} -
             <Input
-              // defaultValue={el.location}
+              placeholder="Onde mais?"
               id={ this.props.idsInputAutoComplete[cont]}
             />
           </Col>
@@ -123,25 +123,29 @@ class FormSeach extends Component {
     return (
       <div className='formRoute'>
         <Row>
-            <Col>Origem</Col>
+            <Col>
+              <p><b>Origem</b></p>
+            </Col>
         </Row>
         <Row>
             <Col>
                 <Input
                     defaultValue=""
+                    placeholder="Coloque seu lugar de partida"
                     onChange={(e)=>{ this.props._setOrigin(e.target.value)}}
                     id={'origemInput'}
                 />
             </Col>
         </Row>
         <Row>
-            <Col>Paradas</Col>
+            <Col><p><b>Paradas</b></p></Col>
         </Row>
         <Row>
             <Col>
                 <Input
                     defaultValue=""
                     id={'waypoint1'}
+                    placeholder="Onde deseja ir?"
                     onChangeCapture={()=>{console.log('onChangeCapture')}}
                     onChange={(e)=>{this.props._setDestination(e.target.value)}}
                 />
