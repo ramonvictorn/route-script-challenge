@@ -9,7 +9,8 @@ const initialState = {
 const generalReducer = (state = initialState, action) => {
     switch (action.type) {
         case TOGGLE_MODAL:
-            let newStatusModal = !state.showModal
+            let newStatusModal = !state.showModal;
+            console.log('TOGGLE_MODAL - new ', newStatusModal ,'state ', state.showModal )
             return {
                 ...state, showModal: newStatusModal,
             };
