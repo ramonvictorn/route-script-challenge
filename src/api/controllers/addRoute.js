@@ -15,7 +15,7 @@ async function addRoute(req,res){
     res.send(dataReturned);
 }
 function verifyParams(params){
-    if(params.idUser == undefined || params.idUser.length == 0) return false;
+    // if(params.idUser == undefined || params.idUser.length == 0) return false;
     if(params.waypoints == undefined || params.waypoints.length == 0 ) return false;
     return true;
 }

@@ -103,3 +103,6 @@ body { height: 100%; margin: 0; padding: 0 }
 .headerMenu a{
     margin-right: 44px;
 }
+.btSearch{
+    margin: 0 auto!important;
+}

@@ -16,7 +16,11 @@ class ModalSaveRoute extends Component{
         this.saveData = this.saveData.bind(this);
     }
     saveData(){
-        axios.post("/api/routes")
+        let data = {
+            title:'nome aqui',
+            waypoints: this.props.waypoints,
+        }
+        axios.post("/api/routes", data)
         .then((data)=>{
             console.log('data MODAL-SAVE-ROUTE', data)
         })
@@ -55,6 +59,7 @@ class ModalSaveRoute extends Component{
 }
 const mapStateToProps = state => ({
     showModal: state.general.showModal,
+    waypoints: state.maps.waypoints,
 })
 const mapDistpacthToProps = dispatch => ({
     _toggleModal: () => dispatch(toggleModal()),

@@ -116,6 +116,7 @@ class FormSeach extends Component {
     // document.getElementById('destinoInput').addaddEventListenerEventListener('change',  (e)=> this.props._setDestination(e.target.value));
   }
   render(){
+    let btDisabled = this.props.waypoints.length <= 1 ? true : false;
     console.log("FormSeach render - props -> ", this.props.waypoints);
     let inputsWaypoints = [];
     for (var cont = 2;  cont < this.props.idsInputAutoComplete.length; cont++){
@@ -171,7 +172,13 @@ class FormSeach extends Component {
           <Col className={'text-center'}>
           <ButtonToolbar>
 
-            <Button variant="contained" color="primary" className={'classes.button'} onClick={()=> this.roteirizar()}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              className={'btSearch'} 
+              onClick={()=> this.roteirizar()}
+              disabled={btDisabled}
+              >
                 Roteirizar
             </Button>
           </ButtonToolbar>

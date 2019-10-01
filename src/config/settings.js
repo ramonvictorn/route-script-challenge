@@ -6,4 +6,5 @@ module.exports = {
     DB_USER: process.env.DB_USER || 'user',
     DB_PASSWORD: process.env.DB_PASSWORD || 'password123',
     DB_DATABASE: process.env.DB_DATABASE || 'routes',
+    PRIVATE_KEY: "routeampapikey"
 }
