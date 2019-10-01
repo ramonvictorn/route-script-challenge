@@ -12,9 +12,9 @@ export const setDestination = (destination) =>({
     payload: {destination}
 });
 
-export const addWaypoint = (waypoint) =>({
+export const addWaypoint = (data) =>({
     type: ADD_WAYPOINT,
-    payload: {waypoint}
+    payload: {data}
 });
 
 export const addInputAutocomplete = (idInput) =>({

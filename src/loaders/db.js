@@ -11,8 +11,8 @@ function initDb(cb){
         logger.log('Conectado ao MongoDB.')
     });
     // mongodb://root:password123@127.0.0.1:27017/admin
-    // mongoose.connect(`mongodb://${settings.DB_USER}:${settings.DB_PASSWORD}@${settings.DB_HOST}:${settings.DB_PORT}/${settings.DB_DATABASE}`,{ useNewUrlParser: true}, function(error) {
-        mongoose.connect(`mongodb://127.0.0.1:27017/admin`,{useNewUrlParser: true, useUnifiedTopology: true}, function(error) {
+    mongoose.connect(`mongodb://${settings.DB_USER}:${settings.DB_PASSWORD}@${settings.DB_HOST}:${settings.DB_PORT}/${settings.DB_DATABASE}`,{ useNewUrlParser: true}, function(error) {
+        // mongoose.connect(`mongodb://localhost:27017/routes`,{useNewUrlParser: true, useUnifiedTopology: true}, function(error) {
         if(error){
             logger.log('Erro on connect with databases!!', error);
             // throw Error ('DB_ERROR_ON_CONNECT')

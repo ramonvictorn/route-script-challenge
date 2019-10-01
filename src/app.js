@@ -15,6 +15,7 @@ async function startServer(){
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    app.use(bodyParser.json())
     app.use('/assets', express.static(__dirname + '/web/public/assets/'))
     initRoutes(app);
     app.get('*', (req,res)=>{

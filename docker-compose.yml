@@ -2,13 +2,14 @@ version: '3.7'
 
 services:
   mongo:
-    image: mongo
+    image: 'bitnami/mongodb:latest'
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password123
-      # - MONGO_INITDB_DATABASE=routes
-      # - DOCKER_HOST=127.0.0.1
+      - ALLOW_EMPTY_PASSWORD=no
+      - MONGODB_USERNAME=user
+      - MONGODB_PASSWORD=password123
+      # - MONGODB_ROOT_PASSWORD=password1234
+      - MONGODB_DATABASE=routes
     ports:
       - 27017:27017
   # app:

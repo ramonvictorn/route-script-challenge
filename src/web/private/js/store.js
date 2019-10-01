@@ -2,9 +2,11 @@ import {createStore, combineReducers} from  'redux';
 
 // reducers
 import mapReducer from './reducers/map.js';
+import generalReducer from './reducers/general.js';
 
 const reducer = combineReducers({
     maps : mapReducer,
+    general: generalReducer,
 })
 
 

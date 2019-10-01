@@ -6,6 +6,7 @@ import store from './store.js';
 import HeaderMenu from './components/HeaderMenu.jsx';
 // views
 import RouterView from './views/RouterView.jsx';
+import MyRouterView from './views/MyRoutes.jsx';
 
 function AppRouter() {
     return (
@@ -13,8 +14,8 @@ function AppRouter() {
         <Router>
             <HeaderMenu></HeaderMenu>
             {/* <Switch> */}
-
-            <Route path="/" component={RouterView} />
+            <Route exact path="/" component={RouterView} />
+            <Route exact path="/myroutes" component={MyRouterView}></Route>
             {/* </Switch> */}
         </Router>
       </Provider>

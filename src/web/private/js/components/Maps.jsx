@@ -87,13 +87,14 @@ class Maps extends Component {
         console.log('configListenersAutoComplete ->', this.props.idsInputAutoComplete)
         this.props.idsInputAutoComplete.map((el,idx)=>{
             let inputOrigem = document.getElementById(el);
-            console.log('loop ', inputOrigem)
+            console.log('loop ', idx, 'el -> ', el)
             var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();
                 // me.props._setOrigin(place);
-                me.props._addWaypoint(place);
+                // me.props._addWaypoint({idx,place});
+                me.props._addWaypoint({idx,place: {placeId: place.place_id,location:place.geometry.location}})
                 var marker = new google.maps.Marker({
                     position: {lat:place.geometry.location.lat(), lng:place.geometry.location.lng()},
                     map:  window.mapServices.map,
@@ -119,7 +120,7 @@ const mapStateToProps = state => ({
 const mapDistpacthToProps = dispatch => ({
     _setOrigin: origin => dispatch(setOrigin(origin)),
     _setDestination: destination => dispatch(setDestination(destination)),
-    _addWaypoint :waypoint => dispatch(addWaypoint(waypoint)),
+    _addWaypoint :data => dispatch(addWaypoint(data)),
  });
     
 export default connect(mapStateToProps,mapDistpacthToProps)(Maps);

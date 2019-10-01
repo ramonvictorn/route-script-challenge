@@ -6,6 +6,7 @@ import Input from '@material-ui/core/Input';
 import {connect} from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import axios from 'axios';
 
 // action
@@ -17,6 +18,7 @@ import {
   setDistance,
   setDuration,
 } from '../actions/map.js';
+
 
 class FormSeach extends Component {
   constructor(){
@@ -37,24 +39,34 @@ class FormSeach extends Component {
     this.props._addInputAutocomplete(newId);
   }
   roteirizar(){
+    // place_id
     let markerArray = []
     console.log('roteiriar 3', this.props.waypoints);
     let me = this;
-    let origin = this.props.waypoints[0].formatted_address;
-    let destination = this.props.waypoints[this.props.waypoints.length-1].formatted_address;
-    let waypoint = [];
-    for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
-      console.log('loop no que faltam ', this.props.waypoints[cont] )
-      waypoint.push({
-        location: this.props.waypoints[cont].formatted_address,
-        stopover: true
-      })
+    // let origin = this.props.waypoints[0].formatted_address;
+    // let destination = this.props.waypoints[this.props.waypoints.length-1].formatted_address;
+    let origin = `${this.props.waypoints[0].location.lat()},${this.props.waypoints[0].location.lng()}`;
+    let destination = `${this.props.waypoints[this.props.waypoints.length-1].location.lat()},${this.props.waypoints[this.props.waypoints.length-1].location.lng()}`;
+    console.log('roteiriar 3 ficou origin ', origin, destination);
+    let waypoints = [];
+    if(this.props.waypoints.length > 2){
+      for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
+        console.log('loop no que faltam ', this.props.waypoints[cont].location )
+        waypoints.push({
+          location: `${this.props.waypoints[cont].location.lat()},${this.props.waypoints[cont].location.lng()}`,
+          stopover: true
+        })
+        // waypoints.push(`${this.props.waypoints[cont].location.lat()},${this.props.waypoints[cont].location.lng()}`)
+      }
     }
+    console.log("origin ficou -> ", origin);
+    console.log("destination ficou -> ", destination)
+    console.log("waypoint ficou -> ", waypoints)
 
     var request = {
       origin: origin,
       destination: destination,
-      waypoints: waypoint,
+      waypoints: waypoints,
       travelMode: 'DRIVING'
     };
     window.mapServices.directionsRenderer.setMap(window.mapServices.map);
@@ -157,9 +169,13 @@ class FormSeach extends Component {
         </Row>
         <Row>
           <Col className={'text-center'}>
+          <ButtonToolbar>
+
             <Button variant="contained" color="primary" className={'classes.button'} onClick={()=> this.roteirizar()}>
                 Roteirizar
             </Button>
+          </ButtonToolbar>
+            {/* <Button variant="success">Success</Button> */}
           </Col>
         </Row>
       </div>

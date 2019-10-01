@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var RouteSchema = new Schema({
   idUser: String,
-  waypoins : Array,
-  dateCreate: Date,
+  waypoints : Array,
+  dateInserted: Date,
 });
 module.exports = mongoose.model('Routes', RouteSchema);

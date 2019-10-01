@@ -28,11 +28,21 @@ const mapReducer = (state = initialState, action) => {
                 destination: action.payload.destination
             }
         case ADD_WAYPOINT:
-            let waypoints = [...state.waypoints];
-            waypoints.push(action.payload.waypoint)
-            return{
-                ...state,
-                waypoints: waypoints,
+            console.log('ADD WAYPOINT ', action.payload.data);
+            if(state.waypoints.length < action.payload.data.idx){
+                let waypoints = [...state.waypoints];
+                waypoints.push(action.payload.data.place)
+                return{
+                    ...state,
+                    waypoints: waypoints,
+                }
+            }else{
+                let waypoints = [...state.waypoints];
+                waypoints[action.payload.data.idx] = action.payload.data.place;
+                return{
+                    ...state,
+                    waypoints: waypoints,
+                }
             }
         case ADD_INPUT_AUTO_COMPLETE:
             let inputs = [...state.idsInputAutoComplete];
