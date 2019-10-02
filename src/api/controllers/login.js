@@ -10,7 +10,8 @@ async function login(req,res){
         password: req.body.password,
     };
     let dataReturned = await createTokenService(context);
-    console.log('depois do await do authentication');
+    console.log('depois do await do authentication', dataReturned);
+    res.cookie('toker',dataReturned.token, { expires: new Date(Date.now() + 30000), httpOnly: true })
     res.send(dataReturned);
 }
 function verifyParams(params){

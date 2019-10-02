@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store.js';
 import HeaderMenu from './components/HeaderMenu.jsx';
 // views
+import LoginView from './views/Login.jsx'
 import RouterView from './views/RouterView.jsx';
 import MyRouterView from './views/MyRoutes.jsx';
 
@@ -12,9 +13,9 @@ function AppRouter() {
     return (
       <Provider store={store}>
         <Router>
-            <HeaderMenu></HeaderMenu>
+            <Route exact path="/login" component={LoginView} />
             {/* <Switch> */}
-            <Route exact path="/" component={RouterView} />
+            <Route exact path="/routes" component={RouterView} />
             <Route exact path="/myroutes" component={MyRouterView}></Route>
             {/* </Switch> */}
         </Router>

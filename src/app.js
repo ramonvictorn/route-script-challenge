@@ -2,6 +2,8 @@ const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
 
 // local files
 const initDb = require('./loaders/db.js');
@@ -15,7 +17,8 @@ async function startServer(){
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-    app.use(bodyParser.json())
+    app.use(bodyParser.json());
+    app.use(cookieParser())
     app.use('/assets', express.static(__dirname + '/web/public/assets/'))
     initRoutes(app);
     app.get('*', (req,res)=>{
