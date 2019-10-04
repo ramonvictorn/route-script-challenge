@@ -32,7 +32,7 @@ class FormSeach extends Component {
       this.props._addWaypoint({location: 'Rua Marino Jorge dos Santos, 684 - São Sebastiao, Palhoça - SC',
       stopover: true})
   }
-  addInputWaypoint(){
+  addInputWaypoint(){1
     let newId = `waypoint${this.props.idsInputAutoComplete.length}`;
     console.log('addInputWaypoint ', this.props.idsInputAutoComplete, ' novo id ', newId);
     // this.props._addWaypoint(newId);

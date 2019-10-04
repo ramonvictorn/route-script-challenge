@@ -5,6 +5,8 @@ import {
     ADD_INPUT_AUTO_COMPLETE,
     SET_DISTANCE,
     SET_DURATION,
+    SET_MY_ROUTES,
+    SET_WAYPOINTS,
 } from '../actions/map.js';
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
     waypoints : [],
     distance : null,
     duration : null,
+    myRoutes: [],
 };
 
 const mapReducer = (state = initialState, action) => {
@@ -28,7 +31,6 @@ const mapReducer = (state = initialState, action) => {
                 destination: action.payload.destination
             }
         case ADD_WAYPOINT:
-            console.log('ADD WAYPOINT ', action.payload.data);
             if(state.waypoints.length < action.payload.data.idx){
                 let waypoints = [...state.waypoints];
                 waypoints.push(action.payload.data.place)
@@ -43,6 +45,11 @@ const mapReducer = (state = initialState, action) => {
                     ...state,
                     waypoints: waypoints,
                 }
+            }
+        case SET_WAYPOINTS:
+            return{
+                ...state,
+                waypoints:action.payload.data,
             }
         case ADD_INPUT_AUTO_COMPLETE:
             let inputs = [...state.idsInputAutoComplete];
@@ -60,6 +67,12 @@ const mapReducer = (state = initialState, action) => {
             return {
                 ...state,
                 duration:action.payload.duration,
+            }
+        case SET_MY_ROUTES:
+            console.log('----------SET_MY_ROUTES ', action.payload)
+            return {
+                ...state,
+                myRoutes: action.payload.routes,
             }
         default:
             return state;

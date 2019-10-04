@@ -17,7 +17,7 @@ module.exports = addRoutes;
  */
 function addRoutes(context){
     return new Promise((resolve,reject)=>{
-        routeModel.addRoutes(context)
+        routeModel.addRoute(context)
             .then(data=>{ 
                 resolve({data:data,code:200});
             })

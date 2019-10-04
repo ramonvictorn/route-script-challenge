@@ -6,7 +6,7 @@ module.exports = {
     addUser,
     getUser,
 }
-async function addUser(context){
+function addUser(context){
     let User = new UserSchema({
         name : context.name,
         email: context.email,
@@ -26,7 +26,7 @@ async function addUser(context){
     })
 }
 
-async function getUser(context){
+function getUser(context){
     const hash = crypto.createHash('sha256');
     return new Promise((resolve,reject)=>{
         let query = {

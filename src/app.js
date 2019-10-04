@@ -4,14 +4,13 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
-
 // local files
 const initDb = require('./loaders/db.js');
 const initRoutes = require('./api/routes.js');
 const setting = require('./config/settings.js');
 const logger = require('./loaders/logger.js');
 
-async function startServer(){
+function startServer(){
     const app = express();
     app.use(compression());
     app.use(bodyParser.urlencoded({
@@ -33,6 +32,5 @@ async function startServer(){
             logger.log(`Listening on ${setting.APP_PORT}`)
         })
     })
-    
 }
 startServer();

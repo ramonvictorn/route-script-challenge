@@ -14,10 +14,12 @@ class ModalSaveRoute extends Component{
     constructor(){
         super();
         this.saveData = this.saveData.bind(this);
+        this.inputTitle = React.createRef();
     }
     saveData(){
+        console.log('saveData ', this.inputTitle.current.value)
         let data = {
-            title:'nome aqui',
+            title:this.inputTitle.current.value,
             waypoints: this.props.waypoints,
         }
         axios.post("/api/routes", data)
@@ -40,7 +42,7 @@ class ModalSaveRoute extends Component{
                     <Row>
                         <Col>
                             <p>Digite um nome para a rota</p>
-                            <Input placeholder="ex: Viagem entrega #46"/>
+                            <input ref={this.inputTitle} placeholder="ex: Viagem entrega #46"/>
                         </Col>
                     </Row>
                 </Modal.Body>

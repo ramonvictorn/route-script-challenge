@@ -5,14 +5,13 @@ module.exports = {
     addRoute,
     getRoutesByUser,
 }
-async function addRoute(context){
+function addRoute(context){
     let Route = new RouteSchema({
         idUser : context.idUser,
         title: context.title,
         waypoints: context.waypoints,
         dateInserted : Date.now(),
     })
-
     return new Promise((resolve,reject)=>{
         Route.save()
         .then(doc => {
@@ -26,13 +25,13 @@ async function addRoute(context){
     })
 }
 
-async function getRoutesByUser(context){
+function getRoutesByUser(context){
     let query = {
         idUser : context.idUser,
     }
 
     return new Promise((resolve,reject)=>{
-        RouteSchema.findOne(query,)
+        RouteSchema.find(query,)
             .then((docs)=>{
                 resolve({data:docs});
             })
