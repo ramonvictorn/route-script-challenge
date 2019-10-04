@@ -2,13 +2,12 @@
  * @file logger.js
  * @author Ramon Victor <ramonvictorn@gmail.com>
  * @summary Implements the logger
- * @module libs/logger
+ * @module loaders/logger
  * @function - Receive a message and makes a console log with the date, time, and message
  * @param {String} msgs - A strings to give console log
  */
 
 exports.log = log;
-
 
 function log(msgs){
     var date = new Date()

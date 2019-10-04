@@ -5,13 +5,12 @@ module.exports = getMapsApi;
 function getMapsApi(){
     return new Promise((resolve,reject)=>{
         axios.get(`https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&key=${GOOGLE_MAPS_API_KEY}&language=pt-br&&region=BR`)
-            .then(data=>{ 
-                data.js
-                resolve(data.data)
+            .then(dataRequest=>{ 
+                resolve({data: dataRequest.data,code:200})
             })
             .catch(err => {
                 logger.log('getMapsApis Error ', err);
-                resolve('erro' , err)
+                resolve({error:err,code:400})
             })
 
     })

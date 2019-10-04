@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var RouteSchema = new Schema({
-  idUser: String,
+  idUser: {
+    type:String,
+    unique:false,
+    index: true,
+  },
   waypoints : Array,
   dateInserted: Date,
 });

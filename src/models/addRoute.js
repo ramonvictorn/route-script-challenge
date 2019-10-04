@@ -17,7 +17,7 @@ async function addRoute(context){
         })
         .catch(err => {
             logger.log('err-> ',err);
-            reject({error:err});
+            resolve({error:err});
         })
     })
 }

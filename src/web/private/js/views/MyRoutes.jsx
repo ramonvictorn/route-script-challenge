@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import HeaderMenu from '../components/HeaderMenu.jsx';
 class MyRoute extends Component {
     constructor(){
         super();
@@ -7,6 +8,7 @@ class MyRoute extends Component {
     render(){
         return(
             <>
+                <HeaderMenu/>
                 my route
             </>
         )

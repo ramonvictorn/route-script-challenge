@@ -15,7 +15,7 @@ class HeaderMenu extends Component {
     render(){
         return(
             <div className={'headerMenu'}>
-                   <Link to={'/'}>Menu</Link>
+                   <Link to={'/routes'}>Rotas</Link>
                    <Link to={'/myroutes'}>Minhas rotas</Link>
             </div>
         )
