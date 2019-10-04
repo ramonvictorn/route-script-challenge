@@ -8,6 +8,7 @@ var RouteSchema = new Schema({
     index: true,
   },
   waypoints : Array,
+  title: String,
   dateInserted: Date,
 });
 module.exports = mongoose.model('Routes', RouteSchema);

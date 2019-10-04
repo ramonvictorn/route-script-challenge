@@ -20,7 +20,7 @@ async function login(req,res){
         res.status(dataFromService.code).send(dataFromService.error);
         return;
     }
-    res.cookie('token',dataFromService.data, { expires: new Date(Date.now() + 30000), httpOnly: true })
+    res.cookie('token',dataFromService.data, { expires: new Date(Date.now() + 900000), httpOnly: true })
     res.status(dataFromService.code).send(dataFromService.data)
 }
 

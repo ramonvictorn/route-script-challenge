@@ -16,6 +16,7 @@ const generalReducer = (state = initialState, action) => {
                 ...state, showModal: newStatusModal,
             };
         case SET_IS_LOGGED:
+            console.log('case set is logged',action.payload)
             return{
                 ...state,
                 isLogged:action.payload.value,

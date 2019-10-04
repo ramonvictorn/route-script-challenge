@@ -1,23 +1,21 @@
 /**
- * @file addRoute.js
+ * @file getRoutesByUser.js
  * @author Ramon Victor <ramonvictorn@gmail.com>
- * @summary Implements the 'add route' services
- * @module services/addRoute
+ * @summary Implements the 'get route by user' service
+ * @module services/getRoutesByUser
  */
 const logger= require('../loaders/logger.js');
 const routeModel = require('../models/route.js');
-module.exports = addRoutes;
+module.exports = getRoutesByUser;
 /**
- * This function receive the route params and call model to save this route
+ * This function receive the idUser params and return your routes
  * @param {Object} context - The request body with the following params
  * @param {string} context.idUser - The id user
- * @param {Object[]} context.waypoints - The waypoints user
- * @param {string} context.title - The title of the route user
  * @return {Object} The object with data or error
  */
-function addRoutes(context){
+function getRoutesByUser(context){
     return new Promise((resolve,reject)=>{
-        routeModel.addRoutes(context)
+        routeModel.getRoutesByUser(context)
             .then(data=>{ 
                 resolve({data:data,code:200});
             })

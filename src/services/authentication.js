@@ -27,7 +27,7 @@ async function createToken(context){
     if(dataUser && dataUser.data != null){
         logger.log("authentication - createToken - creating token");
         let expirationDate = Math.floor(Date.now()/1000) + 86400; //1 day
-        let token = jwt.sign({email:context.email,exp:expirationDate},settings.PRIVATE_KEY)
+        let token = jwt.sign({email:context.email,idUser:dataUser.data.id,exp:expirationDate},settings.PRIVATE_KEY)
         return {data:token,code:200};
     }else{
         return {error:'USER_NOT_FOUND',code:200};
@@ -68,7 +68,7 @@ function tokenIsValid(req,res,next){
     const token = req.cookies.token || req.headers["authorization"];
     if (!token){
         logger.log("authentication - validadeToken - Access denied");
-        res.status(401).send({error:"Access denied. No token provided."});
+        res.status(401).send({data:false});
         return; 
     } 
         
@@ -79,6 +79,6 @@ function tokenIsValid(req,res,next){
         res.status(200).send({data:true});
     } catch (ex) {
         logger.log("authentication - validadeToken - Invalid token.")
-        res.status(401).send("Invalid token.");
+        res.status(401).send({data:false});
     }
 }
