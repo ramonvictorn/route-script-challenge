@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import axios from 'axios';
-
+import './FormSearch.css';
 // action
 import {
   setOrigin,
@@ -17,51 +17,40 @@ import {
   addInputAutocomplete,
   setDistance,
   setDuration,
-} from '../actions/map.js';
-
+  setModelEditRoute,
+  setWaypoints,
+} from '../../actions/map.js';
 
 class FormSeach extends Component {
   constructor(){
     super();
     this.roteirizar = this.roteirizar.bind(this);
-    this.addWaypoints = this.addWaypoints.bind(this);
     this.addInputWaypoint = this.addInputWaypoint.bind(this);
+    this.resetRoutes = this.resetRoutes.bind(this);
   }
-  addWaypoints(){
-      console.log("addWaypoints");
-      this.props._addWaypoint({location: 'Rua Marino Jorge dos Santos, 684 - São Sebastiao, Palhoça - SC',
-      stopover: true})
+  resetRoutes(){
+    console.log('resetRoutes');
+    this.props._setModelEditRoute(true);
+    this.props._setWaypoints([]);
   }
-  addInputWaypoint(){1
+  addInputWaypoint(){
     let newId = `waypoint${this.props.idsInputAutoComplete.length}`;
-    console.log('addInputWaypoint ', this.props.idsInputAutoComplete, ' novo id ', newId);
-    // this.props._addWaypoint(newId);
     this.props._addInputAutocomplete(newId);
   }
   roteirizar(){
-    // place_id
     let markerArray = []
-    console.log('roteiriar 3', this.props.waypoints);
-    let me = this;
-    // let origin = this.props.waypoints[0].formatted_address;
-    // let destination = this.props.waypoints[this.props.waypoints.length-1].formatted_address;
-    let origin = `${this.props.waypoints[0].location.lat()},${this.props.waypoints[0].location.lng()}`;
-    let destination = `${this.props.waypoints[this.props.waypoints.length-1].location.lat()},${this.props.waypoints[this.props.waypoints.length-1].location.lng()}`;
-    console.log('roteiriar 3 ficou origin ', origin, destination);
     let waypoints = [];
+    let me = this;
+    let origin = `${this.props.waypoints[0].location.lat},${this.props.waypoints[0].location.lng}`;
+    let destination = `${this.props.waypoints[this.props.waypoints.length-1].location.lat},${this.props.waypoints[this.props.waypoints.length-1].location.lng}`;
     if(this.props.waypoints.length > 2){
       for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
-        console.log('loop no que faltam ', this.props.waypoints[cont].location )
         waypoints.push({
-          location: `${this.props.waypoints[cont].location.lat()},${this.props.waypoints[cont].location.lng()}`,
+          location: `${this.props.waypoints[cont].location.lat},${this.props.waypoints[cont].location.lng}`,
           stopover: true
         })
-        // waypoints.push(`${this.props.waypoints[cont].location.lat()},${this.props.waypoints[cont].location.lng()}`)
       }
     }
-    console.log("origin ficou -> ", origin);
-    console.log("destination ficou -> ", destination)
-    console.log("waypoint ficou -> ", waypoints)
 
     var request = {
       origin: origin,
@@ -76,10 +65,9 @@ class FormSeach extends Component {
           request,
           function(response, status) {
             if (status === 'OK') {
-              console.log('deu ok ->directionsRenderer ', directionsRenderer)
               directionsRenderer.setDirections(response);
               directionsRenderer.setMap(window.mapServices.map);
-              directionsRenderer.setPanel(document.getElementById('routesDescription'));
+              directionsRenderer.setPanel(document.getElementById('routes-description'));
               let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
                   return {
                     distance:el.distance.value,
@@ -88,39 +76,56 @@ class FormSeach extends Component {
               })
               let totalDistance = 0;
               let totalDuration = 0;
-              console.log('antes do lop ', dataDurationDistance)
               dataDurationDistance.map((el,idx)=>{
-                console.log('loop el ', el)
                 totalDistance += el.distance;
                 totalDuration += el.duration;
               })
               let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
-              console.log('distancia ->',me.props , newDataDistanceDuration);
               me.props._setDuration(newDataDistanceDuration.duration);
               me.props._setDistance(newDataDistanceDuration.distance);
-              var control = document.getElementById('routesDescription');
+              var control = document.getElementById('routes-description');
               control.style.display = 'block';
-              // map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
             } else {
-              window.alert('Directions request failed due to ' + status);
+              console.log('Directions request failed due to ' + status);
             }
           });
     }
   }
   componentDidMount(){
-    // console.log('componentDidMount ', this.props)
-    this.props._addInputAutocomplete('origemInput');
-    // this.props._addWaypoint('waypoint1');
-    this.props._addInputAutocomplete('waypoint1');
-    // document.getElementById('origemInput').addEventListener('change', (e)=> console.log('oi ', e.target.value));
-    // document.getElementById('destinoInput').addaddEventListenerEventListener('change',  (e)=> this.props._setDestination(e.target.value));
+    if(this.props.idsInputAutoComplete.length != 2){
+      this.props._addInputAutocomplete('origemInput');
+      this.props._addInputAutocomplete('waypoint1');
+    }
   }
   render(){
+    if(!this.props.modeEditRoute){
+      return (
+        <>
+        <Row>
+          <Col className={'text-center'}>
+          <ButtonToolbar>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              className={'button-search'} 
+              onClick={()=> this.roteirizar()}
+              disabled={btDisabled}
+            >
+              Roteirizar
+            </Button>
+            <Button variant="contained" color="secondary" className={'button-new-route'} onClick={this.resetRoutes}>
+              Montar nova rota
+            </Button>
+          </ButtonToolbar>
+          </Col>
+        </Row>
+        </>
+      )
+    }
+
     let btDisabled = this.props.waypoints.length <= 1 ? true : false;
-    console.log("FormSeach render - props -> ", this.props.waypoints);
     let inputsWaypoints = [];
     for (var cont = 2;  cont < this.props.idsInputAutoComplete.length; cont++){
-      console.log('loop cont ',cont, this.props.idsInputAutoComplete[cont])
       inputsWaypoints.push(
         <Row key={cont}>
           <Col>
@@ -134,7 +139,7 @@ class FormSeach extends Component {
       )
     }
     return (
-      <div className='formRoute'>
+      <div className='form-route'>
         <Row>
             <Col>
               <p><b>Origem</b></p>
@@ -171,18 +176,25 @@ class FormSeach extends Component {
         <Row>
           <Col className={'text-center'}>
           <ButtonToolbar>
-
             <Button 
               variant="contained" 
               color="primary" 
-              className={'btSearch'} 
+              className={'button-search'} 
               onClick={()=> this.roteirizar()}
               disabled={btDisabled}
               >
                 Roteirizar
-            </Button>
+              </Button>
+              <Button 
+              variant="contained" 
+              color="primary" 
+              className={'button-search'} 
+              onClick={()=> {console.log('resetttt')}}
+              disabled={btDisabled}
+              >
+                Cancelar
+              </Button>
           </ButtonToolbar>
-            {/* <Button variant="success">Success</Button> */}
           </Col>
         </Row>
       </div>
@@ -195,14 +207,17 @@ const mapStateToProps = state => ({
   destination: state.maps.destination,
   waypoints: state.maps.waypoints,
   idsInputAutoComplete: state.maps.idsInputAutoComplete,
+  modeEditRoute: state.maps.modeEditRoute,
 })
 
 const mapDistpacthToProps = dispatch => ({
-   _setOrigin: origin => dispatch(setOrigin(origin)),
-   _setDestination: destination => dispatch(setDestination(destination)),
-   _addWaypoint : waypoint => dispatch(addWaypoint(waypoint)),
-   _addInputAutocomplete: idInput => dispatch(addInputAutocomplete(idInput)),
-   _setDuration: duration => dispatch(setDuration(duration)),
-   _setDistance: distance => dispatch(setDistance(distance)),
+  _setOrigin: origin => dispatch(setOrigin(origin)),
+  _setDestination: destination => dispatch(setDestination(destination)),
+  _addWaypoint : waypoint => dispatch(addWaypoint(waypoint)),
+  _addInputAutocomplete: idInput => dispatch(addInputAutocomplete(idInput)),
+  _setDuration: duration => dispatch(setDuration(duration)),
+  _setDistance: distance => dispatch(setDistance(distance)),
+  _setModelEditRoute: (value) => dispatch(setModelEditRoute(value)),
+  _setWaypoints: (waypoints) => dispatch(setWaypoints(waypoints)),
 });
 export default connect(mapStateToProps,mapDistpacthToProps)(FormSeach);

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import HeaderMenu from '../components/HeaderMenu.jsx';
-import MyRoutes from '../components/MyRoutes.jsx';
+import HeaderMenu from '../../components/HeaderMenu/HeaderMenu.jsx';
+import MyRoutes from '../../components/MyRoutes/MyRoutes.jsx';
 class MyRoute extends Component {
     constructor(){
         super();
@@ -10,7 +10,7 @@ class MyRoute extends Component {
         return(
             <>
                 <HeaderMenu/>
-                <MyRoutes></MyRoutes>
+                <MyRoutes history={this.props.history}></MyRoutes>
             </>
         )
     }

@@ -1,10 +1,13 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import './MyRoutes.css';
 import {
     setMyRoutes,
     setWaypoints,
-} from '../actions/map.js';
+    addInputAutocomplete,
+    setModelEditRoute,
+} from '../../actions/map.js';
 class MyRoutes extends Component{
     constructor(){
         super();
@@ -23,21 +26,19 @@ class MyRoutes extends Component{
         this.fetchMyRoutes();
     }
     seeRoute(index){
-        console.log('see route - ', index);
         this.props._setWaypoints(this.props.myRoutes[index].waypoints);
+        this.props._setModelEditRoute(false);
+        this.props.history.push('/routes');
 
     }
     render(){
-        console.log('My routes props -> ',this.props)
         let myRoutes = this.props.myRoutes.map((el,index)=>{
-            console.log("teste de index ", index)
             return (
                 <li key={index}>{el.title} <button onClick={()=>{this.seeRoute(index)}}>Visualizar rota</button></li>
             )
         })
         return(
             <>
-            ola my routes
             <ul>
                 {myRoutes}
             </ul>
@@ -52,5 +53,7 @@ const mapStateToProps = state =>({
 const mapDispathToProps = dispath => ({
     _setMyRoutes : (routes) => dispath(setMyRoutes(routes)),
     _setWaypoints: (data) => dispath(setWaypoints(data)),
+    _addInputAutocomplete: idInput => dispatch(addInputAutocomplete(idInput)),
+    _setModelEditRoute: (value) => dispath(setModelEditRoute(value)),
 })
 export default connect(mapStateToProps,mapDispathToProps)(MyRoutes)

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { Link} from 'react-router-dom';
+import './HeaderMenu.css';
 // material ui
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -14,7 +15,7 @@ class HeaderMenu extends Component {
     }
     render(){
         return(
-            <div className={'headerMenu'}>
+            <div className={'header-menu'}>
                    <Link to={'/routes'}>Rotas</Link>
                    <Link to={'/myroutes'}>Minhas rotas</Link>
             </div>

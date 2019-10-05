@@ -7,6 +7,8 @@ import {
     SET_DURATION,
     SET_MY_ROUTES,
     SET_WAYPOINTS,
+    SET_MAP_SCRIPT_INSERTED,
+    SET_MODE_EDIT_ROUTE,
 } from '../actions/map.js';
 
 const initialState = {
@@ -17,6 +19,8 @@ const initialState = {
     distance : null,
     duration : null,
     myRoutes: [],
+    scriptMapInserted: false,
+    modeEditRoute: true,
 };
 
 const mapReducer = (state = initialState, action) => {
@@ -69,10 +73,19 @@ const mapReducer = (state = initialState, action) => {
                 duration:action.payload.duration,
             }
         case SET_MY_ROUTES:
-            console.log('----------SET_MY_ROUTES ', action.payload)
             return {
                 ...state,
                 myRoutes: action.payload.routes,
+            }
+        case SET_MAP_SCRIPT_INSERTED:
+            return{
+                ...state,
+                scriptMapInserted:action.payload.value,
+            }
+        case SET_MODE_EDIT_ROUTE:
+            return{
+                ...state,
+                modeEditRoute:action.payload.value,
             }
         default:
             return state;

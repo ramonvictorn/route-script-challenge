@@ -1,0 +1,17 @@
+.view-route {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.control-map {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 800px) 
+{
+    .view-route{
+        flex-direction: column;
+    }
+}

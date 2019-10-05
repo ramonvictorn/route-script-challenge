@@ -6,9 +6,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Input from '@material-ui/core/Input';
 import axios from 'axios';
+import './ModalSaveRoute.css';
 import {
     toggleModal,
-} from '../actions/general.js';
+} from '../../actions/general.js';
 
 class ModalSaveRoute extends Component{
     constructor(){
@@ -17,7 +18,6 @@ class ModalSaveRoute extends Component{
         this.inputTitle = React.createRef();
     }
     saveData(){
-        console.log('saveData ', this.inputTitle.current.value)
         let data = {
             title:this.inputTitle.current.value,
             waypoints: this.props.waypoints,
@@ -31,7 +31,6 @@ class ModalSaveRoute extends Component{
         })
     }
     render(){
-        console.log('ModalSaveRoute ----', this.props)
         return(
             <>
             <Modal show={this.props.showModal} onHide={()=>this.props._toggleModal()}>

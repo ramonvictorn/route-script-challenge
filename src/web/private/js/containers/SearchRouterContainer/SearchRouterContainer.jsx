@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
-
-import FormSearch from '../components/FormSeach.jsx';
+import {connect} from 'react-redux';
+import FormSearch from '../../components/FormSearch/FormSeach.jsx';
+import './SearchRouterContainer.css'
 class SearchRouterContainer extends Component{
     constructor(){
         super();
     }
     render(){
         return (
-            <div className={'searchContainer'}>
+            <div className={'search-container'}>
                 <FormSearch></FormSearch>
             </div>
         )
     }
 }
-export default SearchRouterContainer;
+export default connect()(SearchRouterContainer);

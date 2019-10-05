@@ -1,0 +1,13 @@
+.button-search{
+    margin: 0 auto!important;
+}
+
+@media (max-width: 800px) 
+{
+    .form-route{
+        text-align: center;
+    }
+    .form-route > .row{
+        width: 100%;
+    }
+}

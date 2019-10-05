@@ -2,11 +2,10 @@ import React, {Component} from "react";
 import { BrowserRouter as Router, Route, Link, Switch ,Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
 import axios from 'axios';
-import HeaderMenu from './components/HeaderMenu.jsx';
 // views
-import LoginView from './views/Login.jsx'
-import RouterView from './views/RouterView.jsx';
-import MyRouterView from './views/MyRoutes.jsx';
+import LoginView from './views/Login/Login.jsx'
+import RouterView from './views/RouterView/RouterView.jsx';
+import MyRouterView from './views/MyRoutes/MyRoutes.jsx';
 
 import {
   setIsLogged,
@@ -15,7 +14,7 @@ import {
 
 function PrivateRoute ({component: Component, ...rest}) {
   // let response = tokenIsValid()
-  console.log('PrivateRoute ---------------------', rest.isLogged)
+  // console.log('PrivateRoute ---------------------', rest.isLogged)
   return (
       <Route {...rest} render={props => (
         rest.isLogged == true ?
@@ -30,23 +29,19 @@ class AppRoutes extends Component {
     this.isLogged = this.isLogged.bind(this);
   }
   componentDidMount(){
-    console.log('did mount do app routes');
     this.isLogged();
   }
 
   isLogged(){
     axios.get('/api/isLogged')
     .then((data)=>{
-      console.log('isLogged then ', data);
-      this.props.setIsLogged(true);
+      this.props._setIsLogged(true);
     })
     .catch((data)=>{
-      console.log('isLogged catch ', data);
-      this.props.setIsLogged(false);
+      this.props._setIsLogged(false);
     })
   }
   render(){
-    console.log('AppRoutes ', this.props);
     const isLogged = this.props.isLogged;
     if (isLogged == null) {
         return <div></div>
@@ -66,7 +61,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setIsLogged: (value) => dispatch(setIsLogged(value)),
+  _setIsLogged: (value) => dispatch(setIsLogged(value)),
 });
 export default connect(mapStateToProps,mapDispatchToProps)(AppRoutes);
-// export default AppRoutes

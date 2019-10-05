@@ -1,0 +1,14 @@
+.row-fix{
+    overflow-y: scroll;
+    max-height: 100vh;
+}
+
+
+
+@media (max-width: 800px) 
+{
+    .routes-description{
+        height: 390px;
+    }
+
+}

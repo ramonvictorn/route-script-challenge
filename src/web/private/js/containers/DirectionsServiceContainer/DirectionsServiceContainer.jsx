@@ -3,21 +3,18 @@ import {connect} from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@material-ui/core/Button';
-
-import ModalSaveRoute from '../components/ModalSaveRoute.jsx';
-
-
+import ModalSaveRoute from '../../components/ModalSaveRoute/ModalSaveRoute.jsx';
+import './DirectionsServiceContainer.css';
 
 import {
     toggleModal,
-  } from '../actions/general.js';
+  } from '../../actions/general.js';
 
 class DirectionServiceContainer extends Component{
     constructor(){
         super();
     }
     render(){
-        console.log('DirectionServiceContainer ', this.props)
         let show = this.props.distance != null ? true : false;
         let comp = '';
         if(show){
@@ -41,9 +38,9 @@ class DirectionServiceContainer extends Component{
         return(
             <div className={'directionServiceContainer'}> 
             {comp}
-                <Row className={'rowfix'} >
+                <Row className={'row-fix'} >
                     <Col>
-                        <div id={'routesDescription'} style={{height: !show ? '1px' : ''}}></div>
+                        <div id={'routes-description'} style={{height: !show ? '1px' : ''}}></div>
                     </Col>
                 </Row>
             </div>
