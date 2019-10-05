@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import ListGroup from 'react-bootstrap/ListGroup';
 import './MyRoutes.css';
 import {
     setMyRoutes,
     setWaypoints,
     addInputAutocomplete,
     setModelEditRoute,
+    setRequestMapObject,
 } from '../../actions/map.js';
 class MyRoutes extends Component{
     constructor(){
@@ -15,10 +17,8 @@ class MyRoutes extends Component{
         this.seeRoute = this.seeRoute.bind(this);
     }
     fetchMyRoutes(){
-        console.log('fetchMyRoutes')
         axios.get('/api/user/routes')
             .then((dataFromApi)=>{
-                console.log(' fetchMyRoutes data', dataFromApi.data);
                 this.props._setMyRoutes(dataFromApi.data.data);
             });
     }
@@ -30,24 +30,55 @@ class MyRoutes extends Component{
         this.props._setModelEditRoute(false);
         this.props.history.push('/routes');
 
+        let markerArray = []
+        let waypoints = [];
+        let me = this;
+        console.log("see route ", this.props.myRoutes[index].waypoints)
+        let origin = `${this.props.myRoutes[index].waypoints[0].location.lat},${this.props.myRoutes[index].waypoints[0].location.lng}`;
+        let destination = `${this.props.myRoutes[index].waypoints[this.props.myRoutes[index].waypoints.length-1].location.lat},${this.props.myRoutes[index].waypoints[this.props.myRoutes[index].waypoints.length-1].location.lng}`;
+        if(this.props.myRoutes[index].waypoints.length > 2){
+            for( var cont = 1; cont < this.props.myRoutes[index].waypoints.length-1; cont++){
+                waypoints.push({
+                location: `${this.props.myRoutes[index].waypoints[cont].location.lat},${this.props.myRoutes[index].waypoints[cont].location.lng}`,
+                stopover: true
+                })
+            }
+        }
+        var request = {
+            origin: origin,
+            destination: destination,
+            waypoints: waypoints,
+            travelMode: 'DRIVING'
+        };
+        console.log("seeroute REQUEST OBJE ", request);
+        this.props._setRequestMapObject(request);
+
     }
     render(){
         let myRoutes = this.props.myRoutes.map((el,index)=>{
             return (
-                <li key={index}>{el.title} <button onClick={()=>{this.seeRoute(index)}}>Visualizar rota</button></li>
-            )
+                <ListGroup.Item 
+                    className="my-routes-list"
+                    key={index} 
+                    variant={ index % 2 == 0 ? "primary" : ""}
+                    onClick={()=>{this.seeRoute(index)}}
+                >
+                    {el.title}
+                </ListGroup.Item>
+                )
         })
         return(
             <>
-            <ul>
+            <ListGroup>
                 {myRoutes}
-            </ul>
+            </ListGroup>
             </>
         )
     }
 }
 const mapStateToProps = state =>({
     myRoutes : state.maps.myRoutes,
+    waypoints: state.maps.waypoints,
 })
 
 const mapDispathToProps = dispath => ({
@@ -55,5 +86,6 @@ const mapDispathToProps = dispath => ({
     _setWaypoints: (data) => dispath(setWaypoints(data)),
     _addInputAutocomplete: idInput => dispatch(addInputAutocomplete(idInput)),
     _setModelEditRoute: (value) => dispath(setModelEditRoute(value)),
+    _setRequestMapObject: (object) => dispath(setRequestMapObject(object)),
 })
 export default connect(mapStateToProps,mapDispathToProps)(MyRoutes)

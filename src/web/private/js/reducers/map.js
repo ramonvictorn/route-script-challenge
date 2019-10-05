@@ -9,6 +9,7 @@ import {
     SET_WAYPOINTS,
     SET_MAP_SCRIPT_INSERTED,
     SET_MODE_EDIT_ROUTE,
+    SET_REQUEST_MAP_OBJECT,
 } from '../actions/map.js';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
     myRoutes: [],
     scriptMapInserted: false,
     modeEditRoute: true,
+    requestMapObject: null,
 };
 
 const mapReducer = (state = initialState, action) => {
@@ -86,6 +88,11 @@ const mapReducer = (state = initialState, action) => {
             return{
                 ...state,
                 modeEditRoute:action.payload.value,
+            }
+        case SET_REQUEST_MAP_OBJECT:
+            return{
+                ...state,
+                requestMapObject:action.payload.object,
             }
         default:
             return state;

@@ -19,6 +19,7 @@ import {
   setDuration,
   setModelEditRoute,
   setWaypoints,
+  setRequestMapObject,
 } from '../../actions/map.js';
 
 class FormSeach extends Component {
@@ -58,38 +59,39 @@ class FormSeach extends Component {
       waypoints: waypoints,
       travelMode: 'DRIVING'
     };
-    window.mapServices.directionsRenderer.setMap(window.mapServices.map);
-    calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
-    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-      directionsService.route(
-          request,
-          function(response, status) {
-            if (status === 'OK') {
-              directionsRenderer.setDirections(response);
-              directionsRenderer.setMap(window.mapServices.map);
-              directionsRenderer.setPanel(document.getElementById('routes-description'));
-              let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
-                  return {
-                    distance:el.distance.value,
-                    duration: el.duration.value
-                  }
-              })
-              let totalDistance = 0;
-              let totalDuration = 0;
-              dataDurationDistance.map((el,idx)=>{
-                totalDistance += el.distance;
-                totalDuration += el.duration;
-              })
-              let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
-              me.props._setDuration(newDataDistanceDuration.duration);
-              me.props._setDistance(newDataDistanceDuration.distance);
-              var control = document.getElementById('routes-description');
-              control.style.display = 'block';
-            } else {
-              console.log('Directions request failed due to ' + status);
-            }
-          });
-    }
+    this.props._setRequestMapObject(request);
+    // window.mapServices.directionsRenderer.setMap(window.mapServices.map);
+    // calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
+    // function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+    //   directionsService.route(
+    //       request,
+    //       function(response, status) {
+    //         if (status === 'OK') {
+    //           directionsRenderer.setDirections(response);
+    //           directionsRenderer.setMap(window.mapServices.map);
+    //           directionsRenderer.setPanel(document.getElementById('routes-description'));
+    //           let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
+    //               return {
+    //                 distance:el.distance.value,
+    //                 duration: el.duration.value
+    //               }
+    //           })
+    //           let totalDistance = 0;
+    //           let totalDuration = 0;
+    //           dataDurationDistance.map((el,idx)=>{
+    //             totalDistance += el.distance;
+    //             totalDuration += el.duration;
+    //           })
+    //           let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
+    //           me.props._setDuration(newDataDistanceDuration.duration);
+    //           me.props._setDistance(newDataDistanceDuration.distance);
+    //           var control = document.getElementById('routes-description');
+    //           control.style.display = 'block';
+    //         } else {
+    //           console.log('Directions request failed due to ' + status);
+    //         }
+    //       });
+    // }
   }
   componentDidMount(){
     if(this.props.idsInputAutoComplete.length != 2){
@@ -219,5 +221,6 @@ const mapDistpacthToProps = dispatch => ({
   _setDistance: distance => dispatch(setDistance(distance)),
   _setModelEditRoute: (value) => dispatch(setModelEditRoute(value)),
   _setWaypoints: (waypoints) => dispatch(setWaypoints(waypoints)),
+  _setRequestMapObject: (object) => dispatch(setRequestMapObject(object)),
 });
 export default connect(mapStateToProps,mapDistpacthToProps)(FormSeach);

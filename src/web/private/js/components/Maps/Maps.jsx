@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import './Maps.css';
-// actions
 import {
     setOrigin,
     setDestination,
     addWaypoint,
     setMapScriptInserted,
+    setDuration,
+    setDistance,
   } from '../../actions/map.js';
 
 class Maps extends Component {
@@ -15,21 +16,22 @@ class Maps extends Component {
         super();
         this.initMaps = this.initMaps.bind(this);
         this.configListenersAutoComplete = this.configListenersAutoComplete.bind(this);
+        this.calculateRoute = this.calculateRoute.bind(this);
     }
 
     initMaps(){
         var positionStart = {lat: -29.17768, lng:-51.2184097 };
-        navigator.geolocation.getCurrentPosition(success,()=>{console.log('eeo entao')});
+        navigator.geolocation.getCurrentPosition(success,()=>{});
         function success(pos) {
             var crd = pos.coords;
-            console.log('Your current position is:');
-            console.log(`Latitude : ${crd.latitude}`);
-            console.log(`Longitude: ${crd.longitude}`);
-            console.log(`More or less ${crd.accuracy} meters.`);
+            // console.log('Your current position is:');
+            // console.log(`Latitude : ${crd.latitude}`);
+            // console.log(`Longitude: ${crd.longitude}`);
+            // console.log(`More or less ${crd.accuracy} meters.`);
             positionStart.lat = crd.latitude;
             positionStart.lng = crd.longitude;
         };
-        console.log("ja passei do sucess")
+
         var me = this;
         var map = new google.maps.Map(
             document.getElementById('map'), {zoom: 6, center: positionStart}
@@ -49,7 +51,47 @@ class Maps extends Component {
             map: map,
         };
     }
-
+    calculateRoute(){
+        console.log('calculateRoute', this.props.requestMapObject);
+        if(this.props.requestMapObject == null){
+            return;
+        }
+    let request = this.props.requestMapObject;
+    let me = this;
+    window.mapServices.directionsRenderer.setMap(window.mapServices.map);
+    calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
+    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+      directionsService.route(
+          request,
+          function(response, status) {
+            if (status === 'OK') {
+              directionsRenderer.setDirections(response);
+              directionsRenderer.setMap(window.mapServices.map);
+              directionsRenderer.setPanel(document.getElementById('routes-description'));
+              let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
+                  return {
+                    distance:el.distance.value,
+                    duration: el.duration.value
+                  }
+              })
+              let totalDistance = 0;
+              let totalDuration = 0;
+              dataDurationDistance.map((el,idx)=>{
+                totalDistance += el.distance;
+                totalDuration += el.duration;
+              })
+              let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
+              me.props._setDuration(newDataDistanceDuration.duration);
+              me.props._setDistance(newDataDistanceDuration.distance);
+              var control = document.getElementById('routes-description');
+              control.style.display = 'block';
+            } else {
+              console.log('Directions request failed due to ' + status);
+            }
+          });
+    }
+        
+    }
     componentDidMount(){
         if(this.props.scriptMapInserted){
             this.initMaps();
@@ -101,6 +143,7 @@ class Maps extends Component {
         })
     }
     render() {
+        this.calculateRoute();
         return <>
             <div id={'map'}></div>
         </>
@@ -113,6 +156,7 @@ const mapStateToProps = state => ({
     idsInputAutoComplete: state.maps.idsInputAutoComplete,
     scriptMapInserted: state.maps.scriptMapInserted,
     modeEditRoute: state.maps.modeEditRoute,
+    requestMapObject: state.maps.requestMapObject
 })
 
 const mapDistpacthToProps = dispatch => ({
@@ -120,6 +164,8 @@ const mapDistpacthToProps = dispatch => ({
     _setDestination: destination => dispatch(setDestination(destination)),
     _addWaypoint :data => dispatch(addWaypoint(data)),
     _setMapScriptInserted: value => dispatch(setMapScriptInserted(value)),
+    _setDuration: duration => dispatch(setDuration(duration)),
+    _setDistance: distance => dispatch(setDistance(distance)),
  });
     
 export default connect(mapStateToProps,mapDistpacthToProps)(Maps);

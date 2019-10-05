@@ -30,7 +30,7 @@ async function createToken(context){
         let token = jwt.sign({email:context.email,idUser:dataUser.data.id,exp:expirationDate},settings.PRIVATE_KEY)
         return {data:token,code:200};
     }else{
-        return {error:'USER_NOT_FOUND',code:200};
+        return {error:'USER_NOT_FOUND',code:400};
     }
 }
 
