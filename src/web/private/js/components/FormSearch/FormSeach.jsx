@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Input from '@material-ui/core/Input';
 import {connect} from 'react-redux';
 import Row from 'react-bootstrap/Row';
@@ -20,6 +21,8 @@ import {
   setModelEditRoute,
   setWaypoints,
   setRequestMapObject,
+  removeInputAutoCompleteByIndex,
+  removeWaypointByIndex,
 } from '../../actions/map.js';
 
 class FormSeach extends Component {
@@ -28,6 +31,7 @@ class FormSeach extends Component {
     this.roteirizar = this.roteirizar.bind(this);
     this.addInputWaypoint = this.addInputWaypoint.bind(this);
     this.resetRoutes = this.resetRoutes.bind(this);
+    this.removeInputWaypoint = this.removeInputWaypoint.bind(this);
   }
   resetRoutes(){
     console.log('resetRoutes');
@@ -37,6 +41,11 @@ class FormSeach extends Component {
   addInputWaypoint(){
     let newId = `waypoint${this.props.idsInputAutoComplete.length}`;
     this.props._addInputAutocomplete(newId);
+  }
+  removeInputWaypoint(idx){
+    console.log("removeInputWaypoint ->>", idx)
+    this.props._removeInputAutoCompleteByIndex(idx);
+    this.props._removeWaypointByIndex(idx);
   }
   roteirizar(){
     let markerArray = []
@@ -60,38 +69,6 @@ class FormSeach extends Component {
       travelMode: 'DRIVING'
     };
     this.props._setRequestMapObject(request);
-    // window.mapServices.directionsRenderer.setMap(window.mapServices.map);
-    // calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
-    // function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-    //   directionsService.route(
-    //       request,
-    //       function(response, status) {
-    //         if (status === 'OK') {
-    //           directionsRenderer.setDirections(response);
-    //           directionsRenderer.setMap(window.mapServices.map);
-    //           directionsRenderer.setPanel(document.getElementById('routes-description'));
-    //           let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
-    //               return {
-    //                 distance:el.distance.value,
-    //                 duration: el.duration.value
-    //               }
-    //           })
-    //           let totalDistance = 0;
-    //           let totalDuration = 0;
-    //           dataDurationDistance.map((el,idx)=>{
-    //             totalDistance += el.distance;
-    //             totalDuration += el.duration;
-    //           })
-    //           let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
-    //           me.props._setDuration(newDataDistanceDuration.duration);
-    //           me.props._setDistance(newDataDistanceDuration.distance);
-    //           var control = document.getElementById('routes-description');
-    //           control.style.display = 'block';
-    //         } else {
-    //           console.log('Directions request failed due to ' + status);
-    //         }
-    //       });
-    // }
   }
   componentDidMount(){
     if(this.props.idsInputAutoComplete.length != 2){
@@ -125,18 +102,21 @@ class FormSeach extends Component {
       )
     }
 
-    let btDisabled = this.props.waypoints.length <= 1 ? true : false;
+    let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
     let inputsWaypoints = [];
-    for (var cont = 2;  cont < this.props.idsInputAutoComplete.length; cont++){
+    for (let cont = 2;  cont < this.props.idsInputAutoComplete.length; cont++){
+      console.log("loop no form ", this.props.waypoints[cont]);
       inputsWaypoints.push(
         <Row key={cont}>
           <Col>
             {cont} -
             <Input
-              placeholder="Onde mais?"
-              id={ this.props.idsInputAutoComplete[cont]}
+              // value='ramon'
+               placeholder="Onde mais?"
+               id={ this.props.idsInputAutoComplete[cont]}
             />
-          </Col>
+          <RemoveCircleIcon onClick={()=>this.removeInputWaypoint(cont)}/>
+         </Col>
         </Row>
       )
     }
@@ -222,5 +202,7 @@ const mapDistpacthToProps = dispatch => ({
   _setModelEditRoute: (value) => dispatch(setModelEditRoute(value)),
   _setWaypoints: (waypoints) => dispatch(setWaypoints(waypoints)),
   _setRequestMapObject: (object) => dispatch(setRequestMapObject(object)),
+  _removeInputAutoCompleteByIndex: (index) =>dispatch(removeInputAutoCompleteByIndex(index)),
+  _removeWaypointByIndex: (index) => dispatch(removeWaypointByIndex(index)),
 });
 export default connect(mapStateToProps,mapDistpacthToProps)(FormSeach);

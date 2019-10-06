@@ -52,45 +52,43 @@ class Maps extends Component {
         };
     }
     calculateRoute(){
-        console.log('calculateRoute', this.props.requestMapObject);
         if(this.props.requestMapObject == null){
             return;
         }
-    let request = this.props.requestMapObject;
-    let me = this;
-    window.mapServices.directionsRenderer.setMap(window.mapServices.map);
-    calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
-    function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-      directionsService.route(
-          request,
-          function(response, status) {
-            if (status === 'OK') {
-              directionsRenderer.setDirections(response);
-              directionsRenderer.setMap(window.mapServices.map);
-              directionsRenderer.setPanel(document.getElementById('routes-description'));
-              let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
-                  return {
-                    distance:el.distance.value,
-                    duration: el.duration.value
-                  }
-              })
-              let totalDistance = 0;
-              let totalDuration = 0;
-              dataDurationDistance.map((el,idx)=>{
-                totalDistance += el.distance;
-                totalDuration += el.duration;
-              })
-              let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
-              me.props._setDuration(newDataDistanceDuration.duration);
-              me.props._setDistance(newDataDistanceDuration.distance);
-              var control = document.getElementById('routes-description');
-              control.style.display = 'block';
-            } else {
-              console.log('Directions request failed due to ' + status);
-            }
-          });
-    }
-        
+        let request = this.props.requestMapObject;
+        let me = this;
+        window.mapServices.directionsRenderer.setMap(window.mapServices.map);
+        calculateAndDisplayRoute(window.mapServices.directionsService, window.mapServices.directionsRenderer);
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+        directionsService.route(
+            request,
+            function(response, status) {
+                if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+                directionsRenderer.setMap(window.mapServices.map);
+                directionsRenderer.setPanel(document.getElementById('routes-description'));
+                let dataDurationDistance = directionsRenderer.directions.routes[0].legs.map((el,index)=> {
+                    return {
+                        distance:el.distance.value,
+                        duration: el.duration.value
+                    }
+                })
+                let totalDistance = 0;
+                let totalDuration = 0;
+                dataDurationDistance.map((el,idx)=>{
+                    totalDistance += el.distance;
+                    totalDuration += el.duration;
+                })
+                let newDataDistanceDuration = { duration: totalDuration/60 , distance: totalDistance/1000}
+                me.props._setDuration(newDataDistanceDuration.duration);
+                me.props._setDistance(newDataDistanceDuration.distance);
+                var control = document.getElementById('routes-description');
+                control.style.display = 'block';
+                } else {
+                console.log('Directions request failed due to ' + status);
+                }
+            });
+        }   
     }
     componentDidMount(){
         if(this.props.scriptMapInserted){
@@ -102,7 +100,7 @@ class Maps extends Component {
         script.async = true;
         document.head.appendChild(script);
         script.onload = () => {
-            console.log('Maps - script inserido!');
+            // console.log('Maps - script inserido!');
             this.props._setMapScriptInserted(true);
             this.initMaps();
         };
@@ -118,14 +116,17 @@ class Maps extends Component {
         }
         let me = this;
         this.props.idsInputAutoComplete.map((el,idx)=>{
+            // console.log('loop no configListenersAutoComplete ', el , '  ', this.props)
             let inputOrigem = document.getElementById(el);
             var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();
+                console.log("place ", place)
                 me.props._addWaypoint({
                     idx:idx,
                     place: {
+                        name: place.formatted_address,
                         placeId: place.place_id,
                         location:{
                             lat:place.geometry.location.lat(),

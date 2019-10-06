@@ -9,6 +9,10 @@ export const SET_MY_ROUTES = 'SET_MY_ROUTES';
 export const SET_MAP_SCRIPT_INSERTED = 'SET_MAP_SCRIPT_INSERTED';
 export const SET_MODE_EDIT_ROUTE = 'SET_MODE_EDIT_ROUTE';
 export const SET_REQUEST_MAP_OBJECT = 'SET_REQUEST_MAP_OBJECT';
+export const REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX = 'REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX';
+export const REMOVE_WAYPOINT_BY_INDEX = 'REMOVE_WAYPOINT_BY_INDEX';
+
+
 export const setOrigin = (origin) => ({ type: SET_ORIGIN, payload : {origin}});
 
 export const setDestination = (destination) =>({
@@ -58,4 +62,14 @@ export const setModelEditRoute = (value) =>({
 export const setRequestMapObject = (object) => ({
     type: SET_REQUEST_MAP_OBJECT,
     payload: {object},
+})
+
+export const removeInputAutoCompleteByIndex = (index) => ({
+    type: REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX,
+    payload: {index},
+})
+
+export const removeWaypointByIndex = (index) => ({
+    type: REMOVE_WAYPOINT_BY_INDEX,
+    payload: {index},
 })

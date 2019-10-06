@@ -10,6 +10,8 @@ import {
     SET_MAP_SCRIPT_INSERTED,
     SET_MODE_EDIT_ROUTE,
     SET_REQUEST_MAP_OBJECT,
+    REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX,
+    REMOVE_WAYPOINT_BY_INDEX,
 } from '../actions/map.js';
 
 const initialState = {
@@ -37,21 +39,28 @@ const mapReducer = (state = initialState, action) => {
                 destination: action.payload.destination
             }
         case ADD_WAYPOINT:
-            if(state.waypoints.length < action.payload.data.idx){
-                let waypoints = [...state.waypoints];
-                waypoints.push(action.payload.data.place)
+            console.log('ADD_WAYPOINT: ', action.payload);
+            let waypoints = [...state.waypoints];
+                waypoints[action.payload.data.idx]= action.payload.data.place;
                 return{
                     ...state,
                     waypoints: waypoints,
                 }
-            }else{
-                let waypoints = [...state.waypoints];
-                waypoints[action.payload.data.idx] = action.payload.data.place;
-                return{
-                    ...state,
-                    waypoints: waypoints,
-                }
-            }
+            // if(state.waypoints.length < action.payload.data.idx){
+            //     let waypoints = [...state.waypoints];
+            //     waypoints.push(action.payload.data.place)
+            //     return{
+            //         ...state,
+            //         waypoints: waypoints,
+            //     }
+            // }else{
+            //     let waypoints = [...state.waypoints];
+            //     waypoints[action.payload.data.idx] = action.payload.data.place;
+            //     return{
+            //         ...state,
+            //         waypoints: waypoints,
+            //     }
+            // }
         case SET_WAYPOINTS:
             return{
                 ...state,
@@ -93,6 +102,20 @@ const mapReducer = (state = initialState, action) => {
             return{
                 ...state,
                 requestMapObject:action.payload.object,
+            }
+        case REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX:
+            let newInputs = [...state.idsInputAutoComplete];
+            newInputs.splice(action.payload.index,1);
+            return{
+                ...state,
+                idsInputAutoComplete: newInputs,
+            }
+        case REMOVE_WAYPOINT_BY_INDEX:
+            let newWaypoints = [...state.waypoints];
+            newWaypoints.splice(action.payload.index,1);
+            return {
+                ...state,
+                waypoints:newWaypoints,
             }
         default:
             return state;
