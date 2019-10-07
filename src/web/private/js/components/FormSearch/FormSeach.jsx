@@ -23,6 +23,7 @@ import {
   setRequestMapObject,
   removeInputAutoCompleteByIndex,
   removeWaypointByIndex,
+  setPlaceWaypoint,
 } from '../../actions/map.js';
 
 class FormSeach extends Component {
@@ -39,41 +40,62 @@ class FormSeach extends Component {
     this.props._setWaypoints([]);
   }
   addInputWaypoint(){
-    let newId = `waypoint${this.props.idsInputAutoComplete.length}`;
-    this.props._addInputAutocomplete(newId);
+    let newId = `waypoint${this.props.waypoints.length}`;
+    this.props._addWaypoint({
+      index:this.props.waypoints.length,
+      idInput:newId,
+      place: {
+        name:'',
+      }
+    })
   }
   removeInputWaypoint(idx){
-    console.log("removeInputWaypoint ->>", idx)
-    this.props._removeInputAutoCompleteByIndex(idx);
     this.props._removeWaypointByIndex(idx);
   }
   roteirizar(){
     let markerArray = []
     let waypoints = [];
     let me = this;
-    let origin = `${this.props.waypoints[0].location.lat},${this.props.waypoints[0].location.lng}`;
-    let destination = `${this.props.waypoints[this.props.waypoints.length-1].location.lat},${this.props.waypoints[this.props.waypoints.length-1].location.lng}`;
+    console.log('antes do loop do roteirizar 0  ', this.props.waypoints[0].place)
+    let origin = `${this.props.waypoints[0].place.location.lat},${this.props.waypoints[0].place.location.lng}`;
+    console.log('antes do loop do roteirizar 1  ', this.props.waypoints[1].place)
+    let destination = `${this.props.waypoints[this.props.waypoints.length-1].place.location.lat},${this.props.waypoints[this.props.waypoints.length-1].place.location.lng}`;
     if(this.props.waypoints.length > 2){
       for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
+        console.log('looping on roteirar ', this.props.waypoints[cont])
         waypoints.push({
-          location: `${this.props.waypoints[cont].location.lat},${this.props.waypoints[cont].location.lng}`,
+          location: `${this.props.waypoints[cont].place.location.lat},${this.props.waypoints[cont].place.location.lng}`,
           stopover: true
         })
       }
     }
-
+    console.log('antes do requet')
+    // return;
     var request = {
       origin: origin,
       destination: destination,
       waypoints: waypoints,
       travelMode: 'DRIVING'
     };
+    console.log('REQUEST -> ',JSON.stringify(request))
     this.props._setRequestMapObject(request);
   }
   componentDidMount(){
     if(this.props.idsInputAutoComplete.length != 2){
-      this.props._addInputAutocomplete('origemInput');
-      this.props._addInputAutocomplete('waypoint1');
+      this.props._addWaypoint({
+        index:0,
+        idInput:'origemInput',
+        place: {
+          name:''
+        }
+      })
+      this.props._addWaypoint({
+        index:1,
+        idInput:'waypoint1',
+        place: {
+          name:''
+        }
+      })
     }
   }
   render(){
@@ -104,16 +126,17 @@ class FormSeach extends Component {
 
     let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
     let inputsWaypoints = [];
-    for (let cont = 2;  cont < this.props.idsInputAutoComplete.length; cont++){
+    for (let cont = 2;  cont < this.props.waypoints.length; cont++){
       console.log("loop no form ", this.props.waypoints[cont]);
       inputsWaypoints.push(
         <Row key={cont}>
           <Col>
             {cont} -
             <Input
-              // value='ramon'
-               placeholder="Onde mais?"
-               id={ this.props.idsInputAutoComplete[cont]}
+              placeholder="Onde mais?"
+              onChange={(e)=>{this.props._setPlaceWaypoint({index:cont,place:e.target.value})}}
+              value={this.props.waypoints[cont].place.name}
+              id={ this.props.waypoints[cont].idInput}
             />
           <RemoveCircleIcon onClick={()=>this.removeInputWaypoint(cont)}/>
          </Col>
@@ -130,10 +153,10 @@ class FormSeach extends Component {
         <Row>
             <Col>
                 <Input
-                    defaultValue=""
+                    onChange={(e)=>{this.props._setPlaceWaypoint({index:0,place:e.target.value})}}
                     placeholder="Coloque seu lugar de partida"
-                    onChange={(e)=>{ this.props._setOrigin(e.target.value)}}
                     id={'origemInput'}
+                    value={this.props.waypoints[0] && this.props.waypoints[0].place ? this.props.waypoints[0].place.name : ''}
                 />
             </Col>
         </Row>
@@ -143,11 +166,10 @@ class FormSeach extends Component {
         <Row>
             <Col>
                 <Input
-                    defaultValue=""
                     id={'waypoint1'}
+                    onChange={(e)=>{this.props._setPlaceWaypoint({index:1,place:e.target.value})}}
                     placeholder="Onde deseja ir?"
-                    onChangeCapture={()=>{console.log('onChangeCapture')}}
-                    onChange={(e)=>{this.props._setDestination(e.target.value)}}
+                    value={this.props.waypoints[1] && this.props.waypoints[1].place ? this.props.waypoints[1].place.name : ''}
                 />
                 <Fab onClick={this.addInputWaypoint} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
                     <AddIcon />
@@ -168,11 +190,11 @@ class FormSeach extends Component {
                 Roteirizar
               </Button>
               <Button 
-              variant="contained" 
-              color="primary" 
-              className={'button-search'} 
-              onClick={()=> {console.log('resetttt')}}
-              disabled={btDisabled}
+                variant="contained" 
+                color="primary" 
+                className={'button-search'} 
+                onClick={()=> {console.log('resetttt')}}
+                disabled={btDisabled}
               >
                 Cancelar
               </Button>
@@ -204,5 +226,6 @@ const mapDistpacthToProps = dispatch => ({
   _setRequestMapObject: (object) => dispatch(setRequestMapObject(object)),
   _removeInputAutoCompleteByIndex: (index) =>dispatch(removeInputAutoCompleteByIndex(index)),
   _removeWaypointByIndex: (index) => dispatch(removeWaypointByIndex(index)),
+  _setPlaceWaypoint: data => dispatch(setPlaceWaypoint(data)),
 });
 export default connect(mapStateToProps,mapDistpacthToProps)(FormSeach);

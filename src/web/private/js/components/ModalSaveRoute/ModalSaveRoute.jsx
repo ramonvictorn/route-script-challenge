@@ -20,8 +20,15 @@ class ModalSaveRoute extends Component{
     saveData(){
         let data = {
             title:this.inputTitle.current.value,
-            waypoints: this.props.waypoints,
         }
+        let newWaypoints = this.props.waypoints.map((el,idx)=>{
+            return (
+                {
+                    place:el.place,
+                }
+            )
+        })
+        data.waypoints = newWaypoints;
         axios.post("/api/routes", data)
         .then((data)=>{
             console.log('data MODAL-SAVE-ROUTE', data);

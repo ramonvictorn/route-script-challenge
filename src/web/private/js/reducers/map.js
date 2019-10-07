@@ -12,6 +12,7 @@ import {
     SET_REQUEST_MAP_OBJECT,
     REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX,
     REMOVE_WAYPOINT_BY_INDEX,
+    SET_PLACE_WAYPOINT,
 } from '../actions/map.js';
 
 const initialState = {
@@ -39,9 +40,8 @@ const mapReducer = (state = initialState, action) => {
                 destination: action.payload.destination
             }
         case ADD_WAYPOINT:
-            console.log('ADD_WAYPOINT: ', action.payload);
             let waypoints = [...state.waypoints];
-                waypoints[action.payload.data.idx]= action.payload.data.place;
+                waypoints[action.payload.data.index]= action.payload.data;
                 return{
                     ...state,
                     waypoints: waypoints,
@@ -116,6 +116,13 @@ const mapReducer = (state = initialState, action) => {
             return {
                 ...state,
                 waypoints:newWaypoints,
+            }
+        case SET_PLACE_WAYPOINT:
+            let oldWaypoints = [...state.waypoints];
+            oldWaypoints[action.payload.data.index].place = action.payload.data.place;
+            return {
+                ...state,
+                waypoints:oldWaypoints,
             }
         default:
             return state;

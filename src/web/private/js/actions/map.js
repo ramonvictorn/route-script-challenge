@@ -11,7 +11,7 @@ export const SET_MODE_EDIT_ROUTE = 'SET_MODE_EDIT_ROUTE';
 export const SET_REQUEST_MAP_OBJECT = 'SET_REQUEST_MAP_OBJECT';
 export const REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX = 'REMOVE_INPUT_AUTO_COMPLETE_BY_INDEX';
 export const REMOVE_WAYPOINT_BY_INDEX = 'REMOVE_WAYPOINT_BY_INDEX';
-
+export const SET_PLACE_WAYPOINT = 'SET_PLACE_WAYPOINT';
 
 export const setOrigin = (origin) => ({ type: SET_ORIGIN, payload : {origin}});
 
@@ -72,4 +72,9 @@ export const removeInputAutoCompleteByIndex = (index) => ({
 export const removeWaypointByIndex = (index) => ({
     type: REMOVE_WAYPOINT_BY_INDEX,
     payload: {index},
+})
+
+export const setPlaceWaypoint = (data) => ({
+    type: SET_PLACE_WAYPOINT,
+    payload: {data},
 })

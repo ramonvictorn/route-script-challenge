@@ -9,6 +9,7 @@ import {
     setMapScriptInserted,
     setDuration,
     setDistance,
+    setPlaceWaypoint,
   } from '../../actions/map.js';
 
 class Maps extends Component {
@@ -115,16 +116,16 @@ class Maps extends Component {
             return;
         }
         let me = this;
-        this.props.idsInputAutoComplete.map((el,idx)=>{
-            // console.log('loop no configListenersAutoComplete ', el , '  ', this.props)
-            let inputOrigem = document.getElementById(el);
+        this.props.waypoints.map((el,idx)=>{
+            console.log('loop no configListenersAutoComplete ', el)
+            let inputOrigem = document.getElementById(el.idInput);
             var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();
                 console.log("place ", place)
-                me.props._addWaypoint({
-                    idx:idx,
+                me.props._setPlaceWaypoint({
+                    index:idx,
                     place: {
                         name: place.formatted_address,
                         placeId: place.place_id,
@@ -157,7 +158,8 @@ const mapStateToProps = state => ({
     idsInputAutoComplete: state.maps.idsInputAutoComplete,
     scriptMapInserted: state.maps.scriptMapInserted,
     modeEditRoute: state.maps.modeEditRoute,
-    requestMapObject: state.maps.requestMapObject
+    requestMapObject: state.maps.requestMapObject,
+    waypoints: state.maps.waypoints,
 })
 
 const mapDistpacthToProps = dispatch => ({
@@ -167,6 +169,7 @@ const mapDistpacthToProps = dispatch => ({
     _setMapScriptInserted: value => dispatch(setMapScriptInserted(value)),
     _setDuration: duration => dispatch(setDuration(duration)),
     _setDistance: distance => dispatch(setDistance(distance)),
+    _setPlaceWaypoint: data => dispatch(setPlaceWaypoint(data)),
  });
     
 export default connect(mapStateToProps,mapDistpacthToProps)(Maps);
