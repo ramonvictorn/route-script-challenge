@@ -114,8 +114,9 @@ class Maps extends Component {
         }
         let me = this;
         this.props.waypoints.map((el,idx)=>{
-            let inputOrigem = document.getElementById(el.idInput);
-            var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
+            let inputToListener = document.getElementById(el.idInput);
+            if(inputToListener == null) return;
+            var autocompleteOrigem = new google.maps.places.Autocomplete(inputToListener);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();

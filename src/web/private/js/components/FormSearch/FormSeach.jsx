@@ -25,53 +25,9 @@ import {
 class FormSeach extends Component {
   constructor(){
     super();
-    this.roteirizar = this.roteirizar.bind(this);
-    this.addInputWaypoint = this.addInputWaypoint.bind(this);
-    this.resetRoutes = this.resetRoutes.bind(this);
-    this.removeInputWaypoint = this.removeInputWaypoint.bind(this);
-  }
-  resetRoutes(){
-    this.props._setModelEditRoute(true);
-    this.props._setWaypoints([]);
-  }
-  addInputWaypoint(){
-    let newId = `waypoint${this.props.waypoints.length}`;
-    this.props._addWaypoint({
-      index:this.props.waypoints.length,
-      idInput:newId,
-      place: {
-        name:'',
-      }
-    })
-  }
-  removeInputWaypoint(idx){
-    this.props._removeWaypointByIndex(idx);
-  }
-  roteirizar(){
-    let markerArray = []
-    let waypoints = [];
-    let me = this;
-    let origin = `${this.props.waypoints[0].place.location.lat},${this.props.waypoints[0].place.location.lng}`;
-    let destination = `${this.props.waypoints[this.props.waypoints.length-1].place.location.lat},${this.props.waypoints[this.props.waypoints.length-1].place.location.lng}`;
-    if(this.props.waypoints.length > 2){
-      for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
-        waypoints.push({
-          location: `${this.props.waypoints[cont].place.location.lat},${this.props.waypoints[cont].place.location.lng}`,
-          stopover: true
-        })
-      }
-    }
-
-    var request = {
-      origin: origin,
-      destination: destination,
-      waypoints: waypoints,
-      travelMode: 'DRIVING'
-    };
-    this.props._setRequestMapObject(request);
   }
   componentDidMount(){
-    if(this.props.waypoints.length != 2){
+    if(this.props.waypoints.length == 0){
       this.props._addWaypoint({
         index:0,
         idInput:'origemInput',
@@ -89,32 +45,47 @@ class FormSeach extends Component {
     }
   }
   render(){
-    if(!this.props.modeEditRoute){
-      return (
+    let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
+    // !this.props.modeEditRoute
+    let editForm =     
+       ( 
         <>
         <Row>
           <Col className={'text-center'}>
           <ButtonToolbar>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              className={'button-search'} 
-              onClick={()=> this.roteirizar()}
-              disabled={btDisabled}
-            >
-              Roteirizar
-            </Button>
-            <Button variant="contained" color="secondary" className={'button-new-route'} onClick={this.resetRoutes}>
-              Montar nova rota
-            </Button>
+            {this.props.modeEditRoute
+            ? <Button 
+                variant="contained" 
+                color="primary" 
+                className={'button-search'} 
+                onClick={()=> this.props.routePathOnClick()}
+                disabled={btDisabled}
+              >
+                Roteirizar
+              </Button>
+            : ''}
+              <Button 
+                variant="contained" 
+                color="primary" 
+                className={'button-search'} 
+                onClick={()=> {this.props.resetRoutePathOnClick()}}
+                disabled={btDisabled}
+              >
+                Cancelar
+              </Button>
+              {!this.props.modeEditRoute 
+                ? <Button variant="contained" color="secondary" className={'button-new-route'} onClick={this.props.resetRoutePathOnClick}>
+                    Montar nova rota
+                  </Button>
+                :''
+              }
           </ButtonToolbar>
           </Col>
         </Row>
         </>
       )
-    }
+  
 
-    let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
     let inputsWaypoints = [];
     for (let cont = 2;  cont < this.props.waypoints.length; cont++){
       console.log("loop no form ", this.props.waypoints[cont]);
@@ -128,7 +99,7 @@ class FormSeach extends Component {
               value={this.props.waypoints[cont].place.name}
               id={ this.props.waypoints[cont].idInput}
             />
-          <RemoveCircleIcon onClick={()=>this.removeInputWaypoint(cont)}/>
+          <RemoveCircleIcon onClick={()=>this.props.removeInputsWaypointsOnClick(cont)}/>
          </Col>
         </Row>
       )
@@ -161,20 +132,21 @@ class FormSeach extends Component {
                     placeholder="Onde deseja ir?"
                     value={this.props.waypoints[1] && this.props.waypoints[1].place ? this.props.waypoints[1].place.name : ''}
                 />
-                <Fab onClick={this.addInputWaypoint} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
+                <Fab onClick={this.props.addInputsWaypointsOnClick} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
                     <AddIcon />
                 </Fab>
                 {inputsWaypoints}
             </Col>
         </Row>
-        <Row>
+        {editForm}
+        {/* <Row>
           <Col className={'text-center'}>
           <ButtonToolbar>
             <Button 
               variant="contained" 
               color="primary" 
               className={'button-search'} 
-              onClick={()=> this.roteirizar()}
+              onClick={()=> this.props.routePathOnClick()}
               disabled={btDisabled}
               >
                 Roteirizar
@@ -183,14 +155,14 @@ class FormSeach extends Component {
                 variant="contained" 
                 color="primary" 
                 className={'button-search'} 
-                onClick={()=> {console.log('resetttt')}}
+                onClick={()=> {this.props.resetRoutePathOnClick()}}
                 disabled={btDisabled}
               >
                 Cancelar
               </Button>
           </ButtonToolbar>
           </Col>
-        </Row>
+        </Row> */}
       </div>
     )
   }

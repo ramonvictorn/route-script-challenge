@@ -31,6 +31,7 @@ const mapReducer = (state = initialState, action) => {
                     waypoints: waypoints,
                 }
         case SET_WAYPOINTS:
+            console.log("SET_WAYPOINTS ", action.payload)
             return{
                 ...state,
                 waypoints:action.payload.data,

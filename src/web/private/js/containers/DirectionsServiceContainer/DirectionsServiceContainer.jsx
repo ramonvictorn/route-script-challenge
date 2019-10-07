@@ -22,8 +22,8 @@ class DirectionServiceContainer extends Component{
             <>
                 <ModalSaveRoute></ModalSaveRoute>
                 <p>
-                    Esse trajeto possui <b>{this.props.distance}</b> Km de comprimento, 
-                    e o tempo estimado é de aproximadamente <b>{this.props.duration}</b> minutos
+                    Esse trajeto possui <b>{this.props.distance.toFixed(2)}</b> Km de comprimento, 
+                    e o tempo estimado é de aproximadamente <b>{this.props.duration.toFixed(2)}</b> minutos
                 </p>
                 <Button variant="contained" color="secondary" onClick={()=> this.props._toggleModal()}>
                     Salvar em minhas rotas
@@ -36,7 +36,7 @@ class DirectionServiceContainer extends Component{
             </p>)
         }
         return(
-            <div className={'directionServiceContainer'}> 
+            <div className={'direction-service-container'}> 
             {comp}
                 <Row className={'row-fix'} >
                     <Col>
