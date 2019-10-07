@@ -3,8 +3,6 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import './Maps.css';
 import {
-    setOrigin,
-    setDestination,
     addWaypoint,
     setMapScriptInserted,
     setDuration,
@@ -101,7 +99,6 @@ class Maps extends Component {
         script.async = true;
         document.head.appendChild(script);
         script.onload = () => {
-            // console.log('Maps - script inserido!');
             this.props._setMapScriptInserted(true);
             this.initMaps();
         };
@@ -117,13 +114,11 @@ class Maps extends Component {
         }
         let me = this;
         this.props.waypoints.map((el,idx)=>{
-            console.log('loop no configListenersAutoComplete ', el)
             let inputOrigem = document.getElementById(el.idInput);
             var autocompleteOrigem = new google.maps.places.Autocomplete(inputOrigem);
 
             autocompleteOrigem.addListener('place_changed', function() {
                 var place = autocompleteOrigem.getPlace();
-                console.log("place ", place)
                 me.props._setPlaceWaypoint({
                     index:idx,
                     place: {
@@ -155,7 +150,6 @@ class Maps extends Component {
 const mapStateToProps = state => ({
     origin : state.maps.origin,
     destination: state.maps.destination,
-    idsInputAutoComplete: state.maps.idsInputAutoComplete,
     scriptMapInserted: state.maps.scriptMapInserted,
     modeEditRoute: state.maps.modeEditRoute,
     requestMapObject: state.maps.requestMapObject,
@@ -163,8 +157,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDistpacthToProps = dispatch => ({
-    _setOrigin: origin => dispatch(setOrigin(origin)),
-    _setDestination: destination => dispatch(setDestination(destination)),
     _addWaypoint :data => dispatch(addWaypoint(data)),
     _setMapScriptInserted: value => dispatch(setMapScriptInserted(value)),
     _setDuration: duration => dispatch(setDuration(duration)),

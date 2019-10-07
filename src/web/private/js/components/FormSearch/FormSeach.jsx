@@ -12,16 +12,12 @@ import axios from 'axios';
 import './FormSearch.css';
 // action
 import {
-  setOrigin,
-  setDestination,
   addWaypoint,
-  addInputAutocomplete,
   setDistance,
   setDuration,
   setModelEditRoute,
   setWaypoints,
   setRequestMapObject,
-  removeInputAutoCompleteByIndex,
   removeWaypointByIndex,
   setPlaceWaypoint,
 } from '../../actions/map.js';
@@ -35,7 +31,6 @@ class FormSeach extends Component {
     this.removeInputWaypoint = this.removeInputWaypoint.bind(this);
   }
   resetRoutes(){
-    console.log('resetRoutes');
     this.props._setModelEditRoute(true);
     this.props._setWaypoints([]);
   }
@@ -56,32 +51,27 @@ class FormSeach extends Component {
     let markerArray = []
     let waypoints = [];
     let me = this;
-    console.log('antes do loop do roteirizar 0  ', this.props.waypoints[0].place)
     let origin = `${this.props.waypoints[0].place.location.lat},${this.props.waypoints[0].place.location.lng}`;
-    console.log('antes do loop do roteirizar 1  ', this.props.waypoints[1].place)
     let destination = `${this.props.waypoints[this.props.waypoints.length-1].place.location.lat},${this.props.waypoints[this.props.waypoints.length-1].place.location.lng}`;
     if(this.props.waypoints.length > 2){
       for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
-        console.log('looping on roteirar ', this.props.waypoints[cont])
         waypoints.push({
           location: `${this.props.waypoints[cont].place.location.lat},${this.props.waypoints[cont].place.location.lng}`,
           stopover: true
         })
       }
     }
-    console.log('antes do requet')
-    // return;
+
     var request = {
       origin: origin,
       destination: destination,
       waypoints: waypoints,
       travelMode: 'DRIVING'
     };
-    console.log('REQUEST -> ',JSON.stringify(request))
     this.props._setRequestMapObject(request);
   }
   componentDidMount(){
-    if(this.props.idsInputAutoComplete.length != 2){
+    if(this.props.waypoints.length != 2){
       this.props._addWaypoint({
         index:0,
         idInput:'origemInput',
@@ -207,24 +197,17 @@ class FormSeach extends Component {
 }
 
 const mapStateToProps = state => ({
-  origin : state.maps.origin,
-  destination: state.maps.destination,
   waypoints: state.maps.waypoints,
-  idsInputAutoComplete: state.maps.idsInputAutoComplete,
   modeEditRoute: state.maps.modeEditRoute,
 })
 
 const mapDistpacthToProps = dispatch => ({
-  _setOrigin: origin => dispatch(setOrigin(origin)),
-  _setDestination: destination => dispatch(setDestination(destination)),
   _addWaypoint : waypoint => dispatch(addWaypoint(waypoint)),
-  _addInputAutocomplete: idInput => dispatch(addInputAutocomplete(idInput)),
   _setDuration: duration => dispatch(setDuration(duration)),
   _setDistance: distance => dispatch(setDistance(distance)),
   _setModelEditRoute: (value) => dispatch(setModelEditRoute(value)),
   _setWaypoints: (waypoints) => dispatch(setWaypoints(waypoints)),
   _setRequestMapObject: (object) => dispatch(setRequestMapObject(object)),
-  _removeInputAutoCompleteByIndex: (index) =>dispatch(removeInputAutoCompleteByIndex(index)),
   _removeWaypointByIndex: (index) => dispatch(removeWaypointByIndex(index)),
   _setPlaceWaypoint: data => dispatch(setPlaceWaypoint(data)),
 });

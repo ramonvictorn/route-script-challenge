@@ -31,7 +31,6 @@ class ModalSaveRoute extends Component{
         data.waypoints = newWaypoints;
         axios.post("/api/routes", data)
         .then((data)=>{
-            console.log('data MODAL-SAVE-ROUTE', data);
             this.props._toggleModal();
         })
         .catch((err)=>{

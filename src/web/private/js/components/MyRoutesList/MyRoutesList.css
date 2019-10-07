@@ -1,0 +1,11 @@
+.my-routes-list:hover{
+    background-color: #cdcdcd
+}
+.my-routes-icon-see, .my-routes-icon-delete {
+    font-size: 30px!important;
+    margin-right: 10px;
+}
+.my-routes-icon-see:hover, .my-routes-icon-delete:hover {
+    cursor: pointer;
+    color:#FF0000
+}
