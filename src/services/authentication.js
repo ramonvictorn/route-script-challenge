@@ -6,7 +6,6 @@
  */
 const jwt = require("jsonwebtoken");
 const settings = require("../config/settings.js");
-const bcrypt = require('bcrypt');
 const logger = require('../loaders/logger.js');
 const userModel = require("../models/user.js");
 module.exports = {
