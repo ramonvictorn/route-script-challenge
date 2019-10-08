@@ -18,12 +18,23 @@ class DirectionServiceContainer extends Component{
         let show = this.props.distance != null ? true : false;
         let comp = '';
         if(show){
+            let duration = `${this.props.duration.toFixed(2)} minutos`; 
+            if(parseInt(duration) > 60){
+                if(duration % 60 != 0){
+                    let hours = this.props.duration/60;
+                    let hoursRounded = Math.floor(hours);
+                    let minutes = Math.floor((hours - hoursRounded)*60);
+                    duration = `${hoursRounded} hora(s) e ${minutes} minutos`;
+                }else{
+                    durarion = `${duration/60} horas`;
+                }
+            }
             comp = 
             <>
                 <ModalSaveRoute></ModalSaveRoute>
                 <p>
                     Esse trajeto possui <b>{this.props.distance.toFixed(2)}</b> Km de comprimento, 
-                    e o tempo estimado é de aproximadamente <b>{this.props.duration.toFixed(2)}</b> minutos
+                    e o tempo estimado é de aproximadamente <b>{duration}</b>
                 </p>
                 <Button variant="contained" color="secondary" onClick={()=> this.props._toggleModal()}>
                     Salvar em minhas rotas

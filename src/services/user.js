@@ -10,3 +10,6 @@ async function addUser(context){
         return {code:200,data:{data:dataFromModel.data}}
     }
 }
+// getUser
+// EditUser
+// DeleteUser

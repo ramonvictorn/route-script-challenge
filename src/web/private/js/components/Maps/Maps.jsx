@@ -19,8 +19,20 @@ class Maps extends Component {
         this.initMaps = this.initMaps.bind(this);
         this.configListenersAutoComplete = this.configListenersAutoComplete.bind(this);
         this.calculateRoute = this.calculateRoute.bind(this);
+        this.addMarkets = this.addMarkets.bind(this);
+        this.setMarketsToNull = this.setMarketsToNull.bind(this);
     }
-
+    addMarkets(newMarket){
+        let newMarkets = this.state.markets;
+        newMarkets.push(newMarket);
+        this.setState({markets:newMarkets});
+    }
+    setMarketsToNull(index){
+        let newMarkets = this.state.markets;
+        newMarkets[index].marker.setMap(null);
+        newMarkets.splice(index,1);
+        this.setState({markets:newMarkets})
+    }
     initMaps(){
         var positionStart = {lat: -29.17768, lng:-51.2184097 };
         navigator.geolocation.getCurrentPosition(success,()=>{});
@@ -102,20 +114,20 @@ class Maps extends Component {
         script.async = true;
         document.head.appendChild(script);
         script.onload = () => {
-            console.log('script inserted')
             this.initMaps();
             this.props._setMapScriptInserted(true);
         };
     }
     componentDidUpdate(){
-        console.log("MAPS --  componentDidUpdate")
+        // console.log("MAPS --  componentDidUpdate");
         if(this.props.scriptMapInserted && this.props.modeEditRoute ){
             this.configListenersAutoComplete();
         }
     }
     configListenersAutoComplete(){
+        // this.setMarkets();
         let AllMarkets = [];
-        console.log("configListenersAutoComplete")
+        // console.log("configListenersAutoComplete")
         // if(!this.props.modeEditRoute){
             // return;
         // }
@@ -139,17 +151,20 @@ class Maps extends Component {
                         }
                     }
                 })
-                // marker.setMap(null);
-                // map.removeOverlay(marker);
+                if(me.state.markets[idx] !=undefined){
+                    me.setMarketsToNull(idx)
+                }
                 var marker = new google.maps.Marker({
                     position: {lat:place.geometry.location.lat(), lng:place.geometry.location.lng()},
                     map:  window.mapServices.map,
                     title: place.name,
                 });
-                me.setState({markets:'aa'})
+                me.addMarkets({
+                    index:idx,
+                    marker,
+                });
             });
         })
-        console.log("AllMarkets -> ", AllMarkets)
     }
     render() {
         this.calculateRoute();

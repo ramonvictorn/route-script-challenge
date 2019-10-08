@@ -13,19 +13,17 @@ class FormLoginContainer extends Component {
         this.fetchFogin = this.fetchFogin.bind(this);
     }
     fetchFogin(data){
-        console.log('fetchFogin data ', data)
         let dataForm ={
             email:data.email,
             password:data.password,
         }
         axios.post('/api/login',dataForm)
             .then((data)=>{
-                console.log("then login -> ",data, this.props.history);
                 this.props._setIsLogged(true);
                 this.props.history.push('/routes');
             })
             .catch((err)=>{
-                console.log('catch do login', err.response)
+                console.log('error login', err.response)
             }
         )
     }

@@ -5,12 +5,16 @@
 
 .direction-service-container{
     text-align: center;
+    width: 94%;
 }
 
 @media (max-width: 800px) 
 {
     .routes-description{
         height: 390px;
+    }
+    .direction-service-container{
+        width: 100%;
     }
 
 }

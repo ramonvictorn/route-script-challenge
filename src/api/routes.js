@@ -8,6 +8,7 @@ const deleteRouteController = require('./controllers/deleteRoute.js');
 // midlewares
 const authenticationValidadeToken = require('../services/authentication.js').validadeToken;
 const tokenIsValid = require('../services/authentication.js').tokenIsValid;
+
 module.exports =  function initRoutes(app){
     app.get('/status', (req,res)=>{
         res.send({data:Date.now()})

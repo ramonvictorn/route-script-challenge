@@ -13,8 +13,6 @@ import {
 
 
 function PrivateRoute ({component: Component, ...rest}) {
-  // let response = tokenIsValid()
-  // console.log('PrivateRoute ---------------------', rest.isLogged)
   return (
       <Route {...rest} render={props => (
         rest.isLogged == true ?
