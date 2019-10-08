@@ -24,7 +24,6 @@ class SearchRouterContainer extends Component{
         this.removeInputWaypoint = this.removeInputWaypoint.bind(this);
     }
     routePath(){
-        console.log('routePath');
         let markerArray = []
         let waypoints = [];
         let me = this;
@@ -47,23 +46,35 @@ class SearchRouterContainer extends Component{
         this.props._setRequestMapObject(request);
     }
     resetRoutePath(){
-        console.log('resetRoutePath');
         this.props._setModelEditRoute(true);
-        this.props._setWaypoints([]);
+        this.props._setRequestMapObject(null);
+        this.props._setDistance(null);
+        this.props._setDuration(null);
+        let waypointsReseteds = [
+            {
+                index:0,
+                idInput:"origemInput",
+                name:{place:" "},
+            },
+            {
+                index:1,
+                idInput:"waypoint1",
+                name:{place:" "},
+            }
+        ]
+        this.props._setWaypoints(waypointsReseteds);
     }
     addInputsWaypoints(){
         let newId = `waypoint${this.props.waypoints.length}`;
-        console.log('addInputsWaypoints ',newId);
         this.props._addWaypoint({
             index:this.props.waypoints.length,
             idInput:newId,
             place: {
-                name:'',
+                name:' ',
             }
         })
     }
     removeInputWaypoint(index){
-        console.log('removeInputWaypoint', index);
         this.props._removeWaypointByIndex(index);
     }
     render(){

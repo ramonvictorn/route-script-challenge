@@ -13,6 +13,9 @@ import {
 class Maps extends Component {
     constructor(){
         super();
+        this.state = {
+            markets : [],
+        }
         this.initMaps = this.initMaps.bind(this);
         this.configListenersAutoComplete = this.configListenersAutoComplete.bind(this);
         this.calculateRoute = this.calculateRoute.bind(this);
@@ -51,7 +54,7 @@ class Maps extends Component {
         };
     }
     calculateRoute(){
-        if(this.props.requestMapObject == null){
+        if(this.props.requestMapObject == null || !this.props.scriptMapInserted){
             return;
         }
         let request = this.props.requestMapObject;
@@ -99,19 +102,23 @@ class Maps extends Component {
         script.async = true;
         document.head.appendChild(script);
         script.onload = () => {
-            this.props._setMapScriptInserted(true);
+            console.log('script inserted')
             this.initMaps();
+            this.props._setMapScriptInserted(true);
         };
     }
     componentDidUpdate(){
+        console.log("MAPS --  componentDidUpdate")
         if(this.props.scriptMapInserted && this.props.modeEditRoute ){
             this.configListenersAutoComplete();
         }
     }
     configListenersAutoComplete(){
-        if(!this.props.modeEditRoute){
-            return;
-        }
+        let AllMarkets = [];
+        console.log("configListenersAutoComplete")
+        // if(!this.props.modeEditRoute){
+            // return;
+        // }
         let me = this;
         this.props.waypoints.map((el,idx)=>{
             let inputToListener = document.getElementById(el.idInput);
@@ -132,13 +139,17 @@ class Maps extends Component {
                         }
                     }
                 })
+                // marker.setMap(null);
+                // map.removeOverlay(marker);
                 var marker = new google.maps.Marker({
                     position: {lat:place.geometry.location.lat(), lng:place.geometry.location.lng()},
                     map:  window.mapServices.map,
                     title: place.name,
                 });
+                me.setState({markets:'aa'})
             });
         })
+        console.log("AllMarkets -> ", AllMarkets)
     }
     render() {
         this.calculateRoute();

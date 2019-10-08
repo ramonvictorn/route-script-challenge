@@ -46,7 +46,6 @@ class FormSeach extends Component {
   }
   render(){
     let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
-    // !this.props.modeEditRoute
     let editForm =     
        ( 
         <>
@@ -88,7 +87,6 @@ class FormSeach extends Component {
 
     let inputsWaypoints = [];
     for (let cont = 2;  cont < this.props.waypoints.length; cont++){
-      console.log("loop no form ", this.props.waypoints[cont]);
       inputsWaypoints.push(
         <Row key={cont}>
           <Col>
@@ -139,30 +137,6 @@ class FormSeach extends Component {
             </Col>
         </Row>
         {editForm}
-        {/* <Row>
-          <Col className={'text-center'}>
-          <ButtonToolbar>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              className={'button-search'} 
-              onClick={()=> this.props.routePathOnClick()}
-              disabled={btDisabled}
-              >
-                Roteirizar
-              </Button>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                className={'button-search'} 
-                onClick={()=> {this.props.resetRoutePathOnClick()}}
-                disabled={btDisabled}
-              >
-                Cancelar
-              </Button>
-          </ButtonToolbar>
-          </Col>
-        </Row> */}
       </div>
     )
   }

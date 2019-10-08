@@ -6,7 +6,7 @@ import axios from 'axios';
 import LoginView from './views/Login/Login.jsx'
 import RouterView from './views/RouterView/RouterView.jsx';
 import MyRouterView from './views/MyRoutes/MyRoutes.jsx';
-
+import NotFound from './views/NotFound/NotFound';
 import {
   setIsLogged,
 } from './actions/general.js';
@@ -47,10 +47,13 @@ class AppRoutes extends Component {
         return <div></div>
     }
     return (
-        <Router>
+      <Router>
+        <Switch>
             <Route exact path="/login" component={LoginView} />
             <PrivateRoute exact path="/routes" component={RouterView} isLogged={this.props.isLogged}/>
             <PrivateRoute exact path="/myroutes" component={MyRouterView} isLogged={this.props.isLogged}/>
+            <Route component={NotFound}/>            
+        </Switch>
         </Router>
     );
   }

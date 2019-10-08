@@ -26,8 +26,19 @@ class MyRoutesContainer extends Component {
         this.fetchMyRoutes();
     }
 
-    deleteRoute(index){
-        console.log('deleteRoute... ', index)
+    deleteRoute(id,index){
+        let dataToSend ={
+            id:id,
+        }
+        const res = axios({
+            method: 'DELETE',
+            url: '/api/routes',
+            data: dataToSend
+          }).then((data)=>{
+                if(data.data.data.deletedCount == 1){
+                    this.fetchMyRoutes();
+                }
+          })
     }
     seeRoute(index){
         let waypointsToForm = []
@@ -35,22 +46,21 @@ class MyRoutesContainer extends Component {
         let me = this;
         let origin = `${this.props.myRoutes[index].waypoints[0].place.location.lat},${this.props.myRoutes[index].waypoints[0].place.location.lng}`;
         let destination = `${this.props.myRoutes[index].waypoints[this.props.myRoutes[index].waypoints.length-1].place.location.lat},${this.props.myRoutes[index].waypoints[this.props.myRoutes[index].waypoints.length-1].place.location.lng}`;
-        if(this.props.myRoutes[index].waypoints.length > 2){
-            for( var cont = 0; cont < this.props.myRoutes[index].waypoints.length; cont++){
-                console.log('seeROute ',this.props.myRoutes[index].waypoints[cont])
+        for( var cont = 0; cont < this.props.myRoutes[index].waypoints.length; cont++){
+            if(this.props.myRoutes[index].waypoints.length > 2){
                 waypoints.push(
                     {
                         location: `${this.props.myRoutes[index].waypoints[cont].place.location.lat},${this.props.myRoutes[index].waypoints[cont].place.location.lng}`,
                         stopover: true
                     }
                 )
+            }
                 let Newid = cont == 0 ? 'origemInput' : `waypoint${cont}`;
                 waypointsToForm.push({
                         index:cont,
                         idInput: Newid,
                         place:this.props.myRoutes[index].waypoints[cont].place,
                 })
-                }
             }
             var request = {
                 origin: origin,
@@ -58,7 +68,6 @@ class MyRoutesContainer extends Component {
                 waypoints: waypoints,
                 travelMode: 'DRIVING'
             };
-            console.log("waypoints ficou -> ", JSON.stringify(waypointsToForm))
             this.props._setWaypoints(waypointsToForm);
             this.props._setRequestMapObject(request);
             this.props._setModelEditRoute(false);

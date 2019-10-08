@@ -13,7 +13,7 @@ let MyRoutesList = ({list,clickToSee,clickToDelete}) => {
                 variant={ index % 2 == 0 ? "primary" : ""}
             >
                 <VisibilityIcon onClick={()=>{clickToSee(index)}} className={'my-routes-icon-see'}/>
-                <DeleteForeverIcon onClick={()=>{clickToDelete(index)}} className={'my-routes-icon-delete'}/>
+                <DeleteForeverIcon onClick={()=>{clickToDelete(el._id)}} className={'my-routes-icon-delete'}/>
                 {el.title}
             </ListGroup.Item>
             )

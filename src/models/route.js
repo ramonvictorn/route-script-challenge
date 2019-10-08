@@ -4,6 +4,7 @@ const logger = require('../loaders/logger.js')
 module.exports = {
     addRoute,
     getRoutesByUser,
+    deleteRoute,
 }
 function addRoute(context){
     let Route = new RouteSchema({
@@ -32,6 +33,21 @@ function getRoutesByUser(context){
 
     return new Promise((resolve,reject)=>{
         RouteSchema.find(query,)
+            .then((docs)=>{
+                resolve({data:docs});
+            })
+            .catch((err)=>{
+                resolve({error:err})
+            })
+    })
+}
+
+function deleteRoute(context){
+    let query = {
+        _id: context.id,
+    }
+    return new Promise((resolve,reject)=>{
+        RouteSchema.deleteOne(query,)
             .then((docs)=>{
                 resolve({data:docs});
             })
