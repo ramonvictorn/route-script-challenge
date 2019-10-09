@@ -1,0 +1,22 @@
+.login-container{
+    background-color: #936b5a;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container > div{
+    width: 276px;
+    height: 351px;
+    background-color: #fff;
+    border-radius: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.modals-container{
+    position: fixed;
+    top: 0;
+}
