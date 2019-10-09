@@ -7,12 +7,14 @@
 const deleteRouteService = require('../../services/deleteRoute.js');
 module.exports = deleteRoute;
 /**
- * This function receive the route id data and call service to delete this route
- *
- * @param {Object} req - The request
- * @param {Object} req.body - The request body with the following params
- * @param {string} req.body.id - The route id
- * @param {Object} res - The response
+ * @api {DELETE} /api/routes DeleteRoute
+ * @apiName DeleteRoute
+ * @apiGroup Route
+ * @apiDescription This function receive the route id data and call service to delete this route
+ * @apiparam {Object} req - The request
+ * @apiparam {Object} req.body - The request body with the following params
+ * @apiparam {string} req.body.id - The route id
+ * @apiparam {Object} res - The response
  * @return {Object} The object with data or error
  */
 async function deleteRoute(req,res){
@@ -29,9 +31,9 @@ async function deleteRoute(req,res){
 
 /**
  * This function receive the user data and return true if are corrects or false if not
- * @param {Object} params - The object with the params
- * @param {Object[]} params.waypoints - The waypoints user
- * @param {string} params.title - The name of the route user
+ * @apiparam {Object} params - The object with the params
+ * @apiparam {Object[]} params.waypoints - The waypoints user
+ * @apiparam {string} params.title - The name of the route user
  * @return {boolean} True if correct or false if not
  */
 function verifyParams(params){

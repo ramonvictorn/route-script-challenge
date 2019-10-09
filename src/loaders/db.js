@@ -3,7 +3,7 @@ const logger = require('./logger.js');
 const settings = require('../config/settings.js');
 /**
  * @function initDb
- * @param {function} cb - Callback to run affer connection with databases 
+ * @apiparam {function} cb - Callback to run affer connection with databases 
  */
 function initDb(cb){
     logger.log(`db.js - initDb Connectin with database ${settings.DB_HOST}`)

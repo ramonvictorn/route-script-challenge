@@ -9,8 +9,8 @@ const routeModel = require('../models/route.js');
 module.exports = getRoutesByUser;
 /**
  * This function receive the idUser params and return your routes
- * @param {Object} context - The request body with the following params
- * @param {string} context.idUser - The id user
+ * @apiparam {Object} context - The request body with the following params
+ * @apiparam {string} context.idUser - The id user
  * @return {Object} The object with data or error
  */
 function getRoutesByUser(context){

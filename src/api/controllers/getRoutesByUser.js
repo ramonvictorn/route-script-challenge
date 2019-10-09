@@ -7,12 +7,14 @@
 const getRoutesByUserService = require('../../services/getRoutesByUser.js');
 module.exports = getRoutesByUser;
 /**
- * This function receive the id user and call service to get your routes
- *
- * @param {Object} req - The request
- * @param {Object} req.body - The request body with the following params
- * @param {string} req.body.idUser - The id user
- * @param {Object} res - The response
+ * @api {GET} /api/routes GetRoutesByUser
+ * @apiName GetRoutesByUser
+ * @apiGroup Route
+ * @apiDescription This function receive the id user and call service to get your routes
+ * @apiparam {Object} req - The request
+ * @apiparam {Object} req.user - The user data (the midleware put here)
+ * @apiparam {string} req.user.idUser - The id user
+ * @apiparam {Object} res - The response
  * @return {Object} The object with data or error
  */
 async function getRoutesByUser(req,res){

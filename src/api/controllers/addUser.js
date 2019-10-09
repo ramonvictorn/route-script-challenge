@@ -7,15 +7,17 @@
 module.exports = addUser;
 const userService = require('../../services/user.js');
 /**
- * This function receive the user data and call service to save
- *
- * @param {Object} req - The request 
- * @param {Object} req.body - The request body with the following params
- * @param {string} req.name - The name user
- * @param {string} req.email - The email user
- * @param {string} req.password - The password user
- * @param {string} req.key - The key used on setting file 
- * @param {Object} res - The response params
+ * @api {POST} /api/user AddUser
+ * @apiDescription This function receive the user data and call service to save
+ * @apiName AddUser
+ * @apiGroup User
+ * @apiparam {Object} req - The request 
+ * @apiparam {Object} req.body - The request body with the following params
+ * @apiparam {string} req.name - The name user
+ * @apiparam {string} req.email - The email user
+ * @apiparam {string} req.password - The password user
+ * @apiparam {string} req.key - The key used on setting file 
+ * @apiparam {Object} res - The response params
  * @return {Object} The object with data or error
  */
 async function addUser(req,res){
@@ -32,10 +34,10 @@ async function addUser(req,res){
     let dataFromService = await userService.addUser(context);
     res.status(dataFromService.code).send(dataFromService.data)
 }
+// * This function receive the user data and return true if are corrects or false if not
 
 /**
- * This function receive the user data and return true if are corrects or false if not
- * @param {Object} params - The request params
+ * @apiparam {Object} params - The request params
  * @return {bool} True if correct or false if not
  */
 function verifyParams(params){

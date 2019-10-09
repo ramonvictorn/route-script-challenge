@@ -16,9 +16,9 @@ module.exports = {
 
 /**
  * This function receive user params and attemp create token
- * @param {Object} context - The request body with the following params
- * @param {string} context.email - The email user
- * @param {string} context.password - The password user
+ * @apiparam {Object} context - The request body with the following params
+ * @apiparam {string} context.email - The email user
+ * @apiparam {string} context.password - The password user
  * @return {Object} The object with data or error and code
  */
 async function createToken(context){
@@ -36,12 +36,12 @@ async function createToken(context){
 
 /**
  * This function attempt get token in cookies or on header to validate the request
- * @param {Object} req - The request body with the following params
- * @param {Object} req.cookies - The cookies
- * @param {string} req.cookies.token - The token to validate
- * @param {Object} req.headers - The headers of request
- * @param {string} [req.headers.authorization] - The token to validate (if not have cookies)
- * @param {Object} res - The response params
+ * @apiparam {Object} req - The request body with the following params
+ * @apiparam {Object} req.cookies - The cookies
+ * @apiparam {string} req.cookies.token - The token to validate
+ * @apiparam {Object} req.headers - The headers of request
+ * @apiparam {string} [req.headers.authorization] - The token to validate (if not have cookies)
+ * @apiparam {Object} res - The response params
  * @return {Object} The object with data or error and code
  */
 function validadeToken(req,res,next){

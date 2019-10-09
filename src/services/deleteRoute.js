@@ -9,8 +9,8 @@ const routeModel = require('../models/route.js');
 module.exports = deleteRoute;
 /**
  * This function receive the id route params and call model to delete this route
- * @param {Object} context - The request body with the following params
- * @param {string} context.id - The route id
+ * @apiparam {Object} context - The request body with the following params
+ * @apiparam {string} context.id - The route id
  * @return {Object} The object with data or error
  */
 function deleteRoute(context){

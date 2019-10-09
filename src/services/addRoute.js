@@ -9,10 +9,10 @@ const routeModel = require('../models/route.js');
 module.exports = addRoutes;
 /**
  * This function receive the route params and call model to save this route
- * @param {Object} context - The request body with the following params
- * @param {string} context.idUser - The id user
- * @param {Object[]} context.waypoints - The waypoints user
- * @param {string} context.title - The title of the route user
+ * @apiparam {Object} context - The request body with the following params
+ * @apiparam {string} context.idUser - The id user
+ * @apiparam {Object[]} context.waypoints - The waypoints user
+ * @apiparam {string} context.title - The title of the route user
  * @return {Object} The object with data or error
  */
 function addRoutes(context){

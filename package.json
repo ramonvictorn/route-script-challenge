@@ -4,6 +4,7 @@
   "description": "Resolving the challenge using js stack",
   "main": "app.js",
   "scripts": {
+    "doc":"apidoc -i src/api/controllers -o doc/ --debug",
     "test": "jest",
     "start": "node src/app.js",
     "build-dev": "webpack --watch --config webpack.config.js --mode development",

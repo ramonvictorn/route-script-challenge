@@ -1,0 +1,16 @@
+{
+  "name": "Route Script Challenge",
+  "version": "1.0.0",
+  "description": "The challenge",
+  "title": "Route Script Challenge",
+  "url": "",
+  "sampleUrl": false,
+  "defaultVersion": "0.0.0",
+  "apidoc": "0.3.0",
+  "generator": {
+    "name": "apidoc",
+    "time": "2019-10-09T15:29:44.409Z",
+    "url": "http://apidocjs.com",
+    "version": "0.17.7"
+  }
+}

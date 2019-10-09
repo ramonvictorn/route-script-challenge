@@ -7,14 +7,16 @@
 const addRouteService = require('../../services/addRoute.js');
 module.exports = addRoute;
 /**
- * This function receive the route user data and call service to save this route
- *
- * @param {Object} req - The request
- * @param {Object} req.body - The request body with the following params
- * @param {string} req.body.idUser - The id user
- * @param {Object[]} req.body.waypoints - The waypoints user
- * @param {string} req.body.name - The name of the route user
- * @param {Object} res - The response
+ * @api {POST} /api/routes AddRoute
+ * @apiName AddRoute
+ * @apiGroup Route
+ * @apiDescription This function receive the route user data and call service to save this route
+ * @apiparam {Object} req - The request
+ * @apiparam {Object} req.body - The request body with the following params
+ * @apiparam {string} req.body.idUser - The id user
+ * @apiparam {Object[]} req.body.waypoints - The waypoints user
+ * @apiparam {string} req.body.name - The name of the route user
+ * @apiparam {Object} res - The response
  * @return {Object} The object with data or error
  */
 async function addRoute(req,res){
@@ -33,9 +35,9 @@ async function addRoute(req,res){
 
 /**
  * This function receive the user data and return true if are corrects or false if not
- * @param {Object} params - The object with the params
- * @param {Object[]} params.waypoints - The waypoints user
- * @param {string} params.title - The name of the route user
+ * @apiparam {Object} params - The object with the params
+ * @apiparam {Object[]} params.waypoints - The waypoints user
+ * @apiparam {string} params.title - The name of the route user
  * @return {boolean} True if correct or false if not
  */
 function verifyParams(params){

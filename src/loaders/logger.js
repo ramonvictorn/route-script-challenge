@@ -4,7 +4,7 @@
  * @summary Implements the logger
  * @module loaders/logger
  * @function - Receive a message and makes a console log with the date, time, and message
- * @param {String} msgs - A strings to give console log
+ * @apiparam {String} msgs - A strings to give console log
  */
 
 exports.log = log;
@@ -30,7 +30,7 @@ function log(msgs){
 
 /**
  * @function - Return de name of the month
- * @param {number} number - A number from 0 to 11 representing a month (Jan = 0, Feb = 1)
+ * @apiparam {number} number - A number from 0 to 11 representing a month (Jan = 0, Feb = 1)
  */
 function getNameMonth(number){
     if(number > 11) return('invalid')
@@ -44,7 +44,7 @@ function getNameMonth(number){
 
 /**
  * @function - Add a 0 to the left if the number is less than 10
- * @param {number} number - Number integer
+ * @apiparam {number} number - Number integer
  */
 function fixedNumber(number){
     if(number < 10){
