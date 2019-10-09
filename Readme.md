@@ -10,7 +10,7 @@ Go to **src/config/settings.js** and set the file **with you configuration**.
 
 ![Login Page](src/web/public/assets/images/LoginPagePrint.png)
 
-![Route Example](src/web/public/assets/images/DirectionPage.pnn)
+![Route Example](src/web/public/assets/images/DirectionPage.png)
 
 # To run:
 
