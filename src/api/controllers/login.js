@@ -20,7 +20,7 @@ async function login(req,res){
         res.status(dataFromService.code).send(dataFromService.error);
         return;
     }
-    let expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24 ); // 24 hour
+    let expiryDate = new Date( Date.now() + 3600000*24 ); // 24 hour
     res.cookie('token',dataFromService.data, {  expires: expiryDate, httpOnly: true })
     res.status(dataFromService.code).send(dataFromService.data)
 }

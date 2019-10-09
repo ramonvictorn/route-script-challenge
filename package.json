@@ -16,6 +16,7 @@
     "url": "https://github.com/ramonvictorn/route-script-challenge.git"
   },
   "dependencies": {
+    "apidoc": "^0.17.7",
     "axios": "^0.19.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",

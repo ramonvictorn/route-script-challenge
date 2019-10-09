@@ -125,12 +125,7 @@ class Maps extends Component {
         }
     }
     configListenersAutoComplete(){
-        // this.setMarkets();
         let AllMarkets = [];
-        // console.log("configListenersAutoComplete")
-        // if(!this.props.modeEditRoute){
-            // return;
-        // }
         let me = this;
         this.props.waypoints.map((el,idx)=>{
             let inputToListener = document.getElementById(el.idInput);

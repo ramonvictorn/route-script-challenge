@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import Chip from '@material-ui/core/Chip';
 import axios from 'axios';
 import './FormSearch.css';
 // action
@@ -25,6 +26,24 @@ import {
 class FormSeach extends Component {
   constructor(){
     super();
+    this.verifyIsDisable = this.verifyIsDisable.bind(this);
+    this.verifyIfNeedWarn = this.verifyIfNeedWarn.bind(this);
+  }
+  verifyIsDisable(){
+    if(this.props.waypoints.length <= 1) return true;
+    if(this.props.waypoints[0] == undefined ) return true;
+    if(this.props.waypoints[0].place.location == undefined) return true;
+    if(this.props.waypoints[1] == undefined ) return true;
+    if(this.props.waypoints[1].place.location == undefined) return true;
+    return false;
+  }
+  verifyIfNeedWarn(indexWaypoint){
+    if(this.props.waypoints[indexWaypoint] != undefined && (this.props.waypoints[indexWaypoint].place.location == undefined && this.props.waypoints[indexWaypoint].place)){
+        if(this.props.waypoints[indexWaypoint].place.length > 0){
+          return true;
+        }
+      }
+    return false;
   }
   componentDidMount(){
     if(this.props.waypoints.length == 0){
@@ -45,7 +64,14 @@ class FormSeach extends Component {
     }
   }
   render(){
-    let btDisabled = this.props.waypoints.length <= 1 ||  this.props.waypoints[0] == null ? true : false;
+    let Warn = [];
+    this.props.waypoints.map((el,index)=>{
+      if(this.verifyIfNeedWarn(index)){
+        Warn[index] =
+          <Chip color="secondary" label="Selecione uma opção para roteirizar" />
+      }
+    })
+    let btDisabled = this.verifyIsDisable();
     let editForm =     
        ( 
         <>
@@ -87,6 +113,7 @@ class FormSeach extends Component {
 
     let inputsWaypoints = [];
     for (let cont = 2;  cont < this.props.waypoints.length; cont++){
+      this.verifyIfNeedWarn(cont);
       inputsWaypoints.push(
         <Row key={cont}>
           <Col>
@@ -98,6 +125,7 @@ class FormSeach extends Component {
               id={ this.props.waypoints[cont].idInput}
             />
           <RemoveCircleIcon onClick={()=>this.props.removeInputsWaypointsOnClick(cont)}/>
+          {Warn[cont] != undefined ? Warn[cont] : ''}
          </Col>
         </Row>
       )
@@ -117,6 +145,7 @@ class FormSeach extends Component {
                     id={'origemInput'}
                     value={this.props.waypoints[0] && this.props.waypoints[0].place ? this.props.waypoints[0].place.name : ''}
                 />
+                {Warn[0] != undefined ? Warn[0] : ''}
             </Col>
         </Row>
         <Row>
@@ -133,6 +162,7 @@ class FormSeach extends Component {
                 <Fab onClick={this.props.addInputsWaypointsOnClick} size="small" color="secondary" aria-label="add" className={'classes.margin'}>
                     <AddIcon />
                 </Fab>
+                {Warn[1] != undefined ? Warn[1] : ''}
                 {inputsWaypoints}
             </Col>
         </Row>
