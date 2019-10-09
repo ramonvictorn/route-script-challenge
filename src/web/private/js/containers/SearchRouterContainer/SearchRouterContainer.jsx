@@ -24,11 +24,17 @@ class SearchRouterContainer extends Component{
         this.removeInputWaypoint = this.removeInputWaypoint.bind(this);
     }
     routePath(){
-        let markerArray = []
+        let markerArray = [];
+        let origin = ``;
+        let destination = ``;
         let waypoints = [];
         let me = this;
-        let origin = `${this.props.waypoints[0].place.location.lat},${this.props.waypoints[0].place.location.lng}`;
-        let destination = `${this.props.waypoints[this.props.waypoints.length-1].place.location.lat},${this.props.waypoints[this.props.waypoints.length-1].place.location.lng}`;
+        if(this.props.waypoints[0].place && this.props.waypoints[0].place.location && this.props.waypoints[0].place.location.lat){
+            origin = `${this.props.waypoints[0].place.location.lat},${this.props.waypoints[0].place.location.lng}`; 
+        }
+        if(this.props.waypoints[this.props.waypoints.length-1] && this.props.waypoints[this.props.waypoints.length-1].place && this.props.waypoints[this.props.waypoints.length-1].place.location && this.props.waypoints[this.props.waypoints.length-1].place.location.lat){
+            destination = `${this.props.waypoints[this.props.waypoints.length-1].place.location.lat},${this.props.waypoints[this.props.waypoints.length-1].place.location.lng}`;   
+        }
         if(this.props.waypoints.length > 2){
             for( var cont = 1; cont < this.props.waypoints.length-1; cont++){
                 waypoints.push({

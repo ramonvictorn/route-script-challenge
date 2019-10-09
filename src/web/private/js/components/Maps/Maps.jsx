@@ -8,6 +8,7 @@ import {
     setDuration,
     setDistance,
     setPlaceWaypoint,
+    setRequestMapObject,
   } from '../../actions/map.js';
 
 class Maps extends Component {
@@ -77,6 +78,12 @@ class Maps extends Component {
         directionsService.route(
             request,
             function(response, status) {
+                if(status == "NOT_FOUND"){
+                    me.props._setRequestMapObject({});
+                    alert('Não foi possivel encontrar essa rota, verifique os dados inseridos');
+                    return;
+                }
+                console.log('aqui ramon ', response, status)
                 if (status === 'OK') {
                 directionsRenderer.setDirections(response);
                 directionsRenderer.setMap(window.mapServices.map);
@@ -184,6 +191,7 @@ const mapDistpacthToProps = dispatch => ({
     _setDuration: duration => dispatch(setDuration(duration)),
     _setDistance: distance => dispatch(setDistance(distance)),
     _setPlaceWaypoint: data => dispatch(setPlaceWaypoint(data)),
+    _setRequestMapObject: data => dispatch(setRequestMapObject(data)),
  });
     
 export default connect(mapStateToProps,mapDistpacthToProps)(Maps);
