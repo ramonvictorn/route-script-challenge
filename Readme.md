@@ -1,6 +1,6 @@
 # route-script-challenge
   This is a project to help the route planning. For example deliveries, and you can save the routes and see after 
-
+![Login page](https://github.com/ramonvictorn/route-script-challenge/tree/master/src/web/public/assets/images/LoginPagePrint.png "Login page")
   
   
 
@@ -21,3 +21,9 @@ And this to run the app:
   
 
 And see on **localhost:4545**
+
+
+
+# Requirements
+
+Nodejs 8.10 or >
