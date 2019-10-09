@@ -1,6 +1,6 @@
 # route-script-challenge
   This is a project to help the route planning. For example deliveries, and you can save the routes and see after 
-![Login page](https://github.com/ramonvictorn/route-script-challenge/tree/master/src/web/public/assets/images/LoginPagePrint.png "Login page")
+
   
   
 
@@ -8,6 +8,7 @@
 # Setting up
 Go to **src/config/settings.js** and set the file **with you configuration**.
 
+![Login page](https://raw.githubusercontent.com/ramonvictorn/route-script-challenge/master/src/web/public/assets/images/LoginPagePrint.png?token=AIAT4BY35P5A6K53Z6BKE7S5TVF7W "Login page")
 
 # To run:
 
