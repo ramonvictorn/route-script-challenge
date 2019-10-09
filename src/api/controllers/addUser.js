@@ -14,6 +14,7 @@ const userService = require('../../services/user.js');
  * @param {string} req.name - The name user
  * @param {string} req.email - The email user
  * @param {string} req.password - The password user
+ * @param {string} req.key - The key used on setting file 
  * @param {Object} res - The response params
  * @return {Object} The object with data or error
  */
@@ -26,6 +27,7 @@ async function addUser(req,res){
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        key: req.body.key,
     }
     let dataFromService = await userService.addUser(context);
     res.status(dataFromService.code).send(dataFromService.data)
@@ -40,5 +42,6 @@ function verifyParams(params){
     if(params.name == undefined || params.name.length == 0) return false;
     if(params.email == undefined || params.email.length == 0) return false;
     if(params.password == undefined || params.password.length == 0 ) return false;
+    if(params.key == undefined || params.key.length == 0 ) return false;
     return true;
 }
