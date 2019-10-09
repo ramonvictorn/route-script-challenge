@@ -23,6 +23,14 @@ And see on **localhost:4545**
 
 
 
+# Creating the user
+After see the page, you need create the first user, for this, user the route **api/user** with the params:
+email
+name
+password
+key  <-This is the private key put on setting file
+
+
 # Requirements
 
 Nodejs 8.10 or >
