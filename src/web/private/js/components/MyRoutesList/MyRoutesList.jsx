@@ -5,6 +5,11 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import './MyRoutesList.css';
 
 let MyRoutesList = ({list,clickToSee,clickToDelete}) => {
+    if(list.length == 0){
+        return (
+            <p className={'warn-my-routes'}>Você não possui nenhuma rota salva ainda...</p>
+        )
+    }
     let routesList = list.map((el,index)=>{
         return (
             <ListGroup.Item 

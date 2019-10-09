@@ -56,6 +56,7 @@ function validadeToken(req,res,next){
         logger.log("authentication - validadeToken - deconding token")
         const decoded = jwt.verify(token, settings.PRIVATE_KEY);
         req.user = decoded;
+        logger.log('validadeToken decoded ', decoded.email)
         next();
     } catch (ex) {
         logger.log("authentication - validadeToken - Invalid token.")
