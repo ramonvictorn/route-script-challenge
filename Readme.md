@@ -34,3 +34,7 @@ key  <-This is the private key put on setting file
 # Requirements
 
 Nodejs 8.10 or >
+
+**
+### Warns
+If you run in docker container, not is recommended to database in containers**

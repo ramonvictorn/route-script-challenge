@@ -32,17 +32,17 @@ class FormSeach extends Component {
   verifyIsDisable(){
     if(this.props.waypoints.length <= 1) return true;
     if(this.props.waypoints[0] == undefined ) return true;
-    if(this.props.waypoints[0].place.location == undefined) return true;
+    if(this.props.waypoints[0].place != undefined && this.props.waypoints[0].place.location == undefined) return true;
     if(this.props.waypoints[1] == undefined ) return true;
-    if(this.props.waypoints[1].place.location == undefined) return true;
+    if(this.props.waypoints[1].place != undefined && this.props.waypoints[1].place.location == undefined)  return true;
     return false;
   }
   verifyIfNeedWarn(indexWaypoint){
-    if(this.props.waypoints[indexWaypoint] != undefined && (this.props.waypoints[indexWaypoint].place.location == undefined && this.props.waypoints[indexWaypoint].place)){
-        if(this.props.waypoints[indexWaypoint].place.length > 0){
-          return true;
-        }
+    if(this.props.waypoints[indexWaypoint] != undefined && (this.props.waypoints[indexWaypoint].place != undefined && this.props.waypoints[indexWaypoint].place.location == undefined)){
+      if(this.props.waypoints[indexWaypoint].place.length > 0){
+        return true;
       }
+    }
     return false;
   }
   componentDidMount(){

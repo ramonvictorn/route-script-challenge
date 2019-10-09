@@ -35,7 +35,6 @@ const generalReducer = (state = initialState, action) => {
             }
         case DELETE_MODAL_WARN:
             let warnRemoved = [...state.modalsWarn];
-            // warnRemoved.splice(action.payload.index,1);
             warnRemoved[action.payload.index].show = false;
             return {
                 ...state,
